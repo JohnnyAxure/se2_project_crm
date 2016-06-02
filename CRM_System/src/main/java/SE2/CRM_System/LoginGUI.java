@@ -35,7 +35,7 @@ public class LoginGUI extends Application {
 		
 		/*
 		 * 
-		 * DAS HIER DRIN LASSEN!!111einself1
+		 * DAS HIER DRIN LASSEN!!111einself12
 		 * 
 		 */
 		final Kundenliste kundenliste = new Kundenliste();
