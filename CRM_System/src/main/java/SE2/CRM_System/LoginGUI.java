@@ -18,8 +18,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -32,6 +34,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 
 public class LoginGUI extends Application {
@@ -144,29 +148,34 @@ public class LoginGUI extends Application {
 					Driver newdriver = new Driver();
 					newdriver.add_wirklichjetzt();
 
-					TableView table = new TableView();
+					TableView kundentable = new TableView();
 
-					final Label label = new Label("Kundenliste");
-					label.setFont(new Font("Arial", 20));
-
-					table.setEditable(true);
+					kundentable.setEditable(true);
 					final TableColumn firstNameCol = new TableColumn("Vorname");
 					TableColumn lastNameCol = new TableColumn("Nachname");
-					TableColumn kundennummerCol = new TableColumn("Kundennummer");
+					TableColumn kundennummerCol = new TableColumn(
+							"Kundennummer");
 
-					table.getColumns().addAll(firstNameCol, lastNameCol,kundennummerCol);
+					kundentable.getColumns().addAll(firstNameCol, lastNameCol,
+							kundennummerCol);
 
 					firstNameCol.setMinWidth(100);
-					firstNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Vorname"));
-					
-					lastNameCol.setMinWidth(100);
-					lastNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Name"));
-					
-					kundennummerCol.setMinWidth(100);
-					kundennummerCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Kundennummer"));
+					firstNameCol
+							.setCellValueFactory(new PropertyValueFactory<Kunde, String>(
+									"Vorname"));
 
-					table.setItems(kundenliste.listeDerKunden);
-					vb2.getChildren().add(table);
+					lastNameCol.setMinWidth(100);
+					lastNameCol
+							.setCellValueFactory(new PropertyValueFactory<Kunde, String>(
+									"Name"));
+
+					kundennummerCol.setMinWidth(100);
+					kundennummerCol
+							.setCellValueFactory(new PropertyValueFactory<Kunde, String>(
+									"Kundennummer"));
+
+					kundentable.setItems(kundenliste.listeDerKunden);
+					vb2.getChildren().add(kundentable);
 
 					Scene scene2 = new Scene(vb2, 400, 800);
 					primaryStage.setScene(scene2);
@@ -174,7 +183,7 @@ public class LoginGUI extends Application {
 
 					// Handler
 
-					table.addEventFilter(MouseEvent.MOUSE_CLICKED,
+					kundentable.addEventFilter(MouseEvent.MOUSE_CLICKED,
 							new EventHandler<MouseEvent>() {
 								public void handle(MouseEvent event) {
 									if (event.getClickCount() > 1) {
@@ -208,6 +217,10 @@ public class LoginGUI extends Application {
 												50));
 										vb3.setSpacing(5);
 
+										ListView detail = new ListView();
+										detail.setPrefSize(200, 250);
+								        detail.setEditable(false);
+
 										Button notiz = new Button();
 										notiz.setText("Kontaktnotiz");
 										vb3.getChildren().add(notiz);
@@ -220,6 +233,7 @@ public class LoginGUI extends Application {
 										secondaryStage.setScene(scene3);
 
 										secondaryStage.show();
+
 										// Handler
 
 									}
