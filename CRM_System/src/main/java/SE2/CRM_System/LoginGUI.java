@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -22,8 +23,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.input.MouseEvent;
 
 public class LoginGUI extends Application {
 
@@ -139,7 +142,7 @@ public class LoginGUI extends Application {
 					label.setFont(new Font("Arial", 20));
 
 					table.setEditable(true);
-					TableColumn firstNameCol = new TableColumn("Vorname");
+					final TableColumn firstNameCol = new TableColumn("Vorname");
 					TableColumn lastNameCol = new TableColumn("Nachname");
 					TableColumn kundennummerCol = new TableColumn(
 							"Kundennummer");
@@ -163,11 +166,39 @@ public class LoginGUI extends Application {
 					primaryStage.show();
 
 				
-				
-				}
-				
-				
+//				Handler
+					
+					table.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+						public void handle(MouseEvent event){
+							if (event.getClickCount() >1){
+								System.out.println("double clicked");
+								
+								
+								VBox vb3 = new VBox();
+								vb3.setPadding(new Insets(10, 50, 50, 50));
+								vb3.setSpacing(5);
+								
+								Button notiz = new Button();
+								notiz.setText("Kontaktnotiz");
+								vb3.getChildren().add(notiz);
 
+								Button schließen = new Button();
+								schließen.setText("Schließen");
+								vb3.getChildren().add(schließen);
+								
+								Button bearbeiten = new Button();
+								bearbeiten.setText("Bearbeiten");
+								vb3.getChildren().add(bearbeiten);
+								
+								
+								
+								Scene scene3 = new Scene(vb3, 400, 800);
+								primaryStage.setScene(scene3);
+								primaryStage.show();
+								}
+						}
+					});}
+					
 				else {
 
 					lblMessage.setText("Incorrect user or pw.");
