@@ -1,6 +1,8 @@
 package SE2.CRM_System;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +12,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -35,14 +41,13 @@ public class LoginGUI extends Application {
 	@Override
 	public void start(final Stage primaryStage) {
 		primaryStage.setTitle("CRM Manager");
-		
+
 		/*
 		 * 
 		 * DAS HIER DRIN LASSEN!!111einself123
-		 * 
 		 */
 		final Kundenliste kundenliste = new Kundenliste();
-		
+
 		VBox vb = new VBox();
 		vb.setPadding(new Insets(10, 50, 50, 50));
 		vb.setSpacing(10);
@@ -76,8 +81,7 @@ public class LoginGUI extends Application {
 		primaryStage.show();
 
 		// Handler
-		
-		
+
 		btn1.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -96,9 +100,8 @@ public class LoginGUI extends Application {
 					// TextField suchfeld = new TextField();
 					// GridPane.setHgrow(suchfeld, Priority.ALWAYS);
 
-	
-					//Neues Fenster
-					
+					// Neues Fenster
+
 					TextField suchfeld = new TextField();
 					vb2.getChildren().add(suchfeld);
 
@@ -109,11 +112,12 @@ public class LoginGUI extends Application {
 					Button add = new Button();
 					add.setText("+");
 					vb2.getChildren().add(add);
-//					add.setOnAction(new EventHandler<ActionEvent>() {
-//			            @Override public void handle(ActionEvent e) {
-//			                kundenliste.add(new Kunde(checkPw, checkPw, checkPw, checkPw, 0, 0, checkPw, checkPw, checkPw, 0));
-//			            }
-//			        });
+					// add.setOnAction(new EventHandler<ActionEvent>() {
+					// @Override public void handle(ActionEvent e) {
+					// kundenliste.add(new Kunde(checkPw, checkPw, checkPw,
+					// checkPw, 0, 0, checkPw, checkPw, checkPw, 0));
+					// }
+					// });
 
 					// TextArea textarea1 = new TextArea();
 					// textarea1.setText("");
@@ -129,13 +133,17 @@ public class LoginGUI extends Application {
 					// System.out.println(kundenliste.listeDerKunden.size());
 					// }
 					// vb2.getChildren().add(textarea1);
-//					IKunde a = FactoryKunde.add("Kunde", "Hans", "Peter", "Musterstraße",
-//							1, 72121, "Musterstadt", "Musterland", "0711/12334567", 001);
-//					
-//					IKunde b = FactoryKunde.add("Kunde", "Gans", "Gustav", "Nelkenweg", 2, 70707, "Entenhausen", "Entenland", "0715468945", 002);
-                    Driver newdriver = new Driver();
+					// IKunde a = FactoryKunde.add("Kunde", "Hans", "Peter",
+					// "Musterstraße",
+					// 1, 72121, "Musterstadt", "Musterland", "0711/12334567",
+					// 001);
+					//
+					// IKunde b = FactoryKunde.add("Kunde", "Gans", "Gustav",
+					// "Nelkenweg", 2, 70707, "Entenhausen", "Entenland",
+					// "0715468945", 002);
+					Driver newdriver = new Driver();
 					newdriver.add_wirklichjetzt();
-					
+
 					TableView table = new TableView();
 
 					final Label label = new Label("Kundenliste");
@@ -144,20 +152,19 @@ public class LoginGUI extends Application {
 					table.setEditable(true);
 					final TableColumn firstNameCol = new TableColumn("Vorname");
 					TableColumn lastNameCol = new TableColumn("Nachname");
-					TableColumn kundennummerCol = new TableColumn(
-							"Kundennummer");
+					TableColumn kundennummerCol = new TableColumn("Kundennummer");
 
-					table.getColumns().addAll(firstNameCol, lastNameCol,
-							kundennummerCol);
+					table.getColumns().addAll(firstNameCol, lastNameCol,kundennummerCol);
 
 					firstNameCol.setMinWidth(100);
 					firstNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Vorname"));
+					
 					lastNameCol.setMinWidth(100);
 					lastNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Name"));
+					
 					kundennummerCol.setMinWidth(100);
 					kundennummerCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Kundennummer"));
 
-					
 					table.setItems(kundenliste.listeDerKunden);
 					vb2.getChildren().add(table);
 
@@ -165,57 +172,61 @@ public class LoginGUI extends Application {
 					primaryStage.setScene(scene2);
 					primaryStage.show();
 
-				
-//				Handler
-					
-					table.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
-						public void handle(MouseEvent event){
-							if (event.getClickCount() >1){
-								
-								
-								@Override
-								public void start2(final Stage secondaryStage){
-								secondaryStage.setTitle("Kontakt");
-								
-								System.out.println("double clicked");
-								
-								
-								VBox vb3 = new VBox();
-								vb3.setPadding(new Insets(10, 50, 50, 50));
-								vb3.setSpacing(5);
-								
-								Button notiz = new Button();
-								notiz.setText("Kontaktnotiz");
-								vb3.getChildren().add(notiz);
+					// Handler
 
-								Button schließen = new Button();
-								schließen.setText("Schließen");
-								vb3.getChildren().add(schließen);
-								
-								Button bearbeiten = new Button();
-								bearbeiten.setText("Bearbeiten");
-								vb3.getChildren().add(bearbeiten);
-								
-								
-								Scene scene3 = new Scene(vb3, 400, 800);
-								secondaryStage.setScene(scene3);
-								secondaryStage.show();
-								
-//								Handler
-								
-							schließen.setOnAction(new EventHandler<ActionEvent>() {
-								public void handle2(ActionEvent event) {
-								secondaryStage.close();
+					table.addEventFilter(MouseEvent.MOUSE_CLICKED,
+							new EventHandler<MouseEvent>() {
+								public void handle(MouseEvent event) {
+									if (event.getClickCount() > 1) {
+
+										final Stage secondaryStage = new Stage();
+										secondaryStage.setTitle("Kontakt");
+
+										// specify stage locations.
+										secondaryStage.setX(900);
+										secondaryStage.setY(400);
+
+										// add a trigger to hide the secondary
+										// stage when the primary stage is
+										// hidden.
+										// this will cause all stages to be
+										// hidden (which will cause the app to
+										// terminate).
+										primaryStage
+												.setOnHidden(new EventHandler<WindowEvent>() {
+
+													public void handle(
+															WindowEvent onClosing) {
+														secondaryStage.hide();
+													}
+												});
+
+										System.out.println("double clicked");
+
+										VBox vb3 = new VBox();
+										vb3.setPadding(new Insets(10, 50, 50,
+												50));
+										vb3.setSpacing(5);
+
+										Button notiz = new Button();
+										notiz.setText("Kontaktnotiz");
+										vb3.getChildren().add(notiz);
+
+										Button bearbeiten = new Button();
+										bearbeiten.setText("Bearbeiten");
+										vb3.getChildren().add(bearbeiten);
+
+										Scene scene3 = new Scene(vb3, 600, 600);
+										secondaryStage.setScene(scene3);
+
+										secondaryStage.show();
+										// Handler
+
+									}
 								}
-						});
-							
-							bearbeiten.setOnAction(new EventHandler<ActionEvent>() {
-								public void handle3(ActionEvent event) {
-								secondaryStage.close();
-								}
-						});
-					}}}});}
-					
+							});
+				}
+
 				else {
 
 					lblMessage.setText("Incorrect user or pw.");
