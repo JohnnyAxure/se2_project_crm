@@ -171,6 +171,12 @@ public class LoginGUI extends Application {
 					table.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
 						public void handle(MouseEvent event){
 							if (event.getClickCount() >1){
+								
+								
+								@Override
+								public void start2(final Stage secondaryStage){
+								secondaryStage.setTitle("Kontakt");
+								
 								System.out.println("double clicked");
 								
 								
@@ -191,13 +197,24 @@ public class LoginGUI extends Application {
 								vb3.getChildren().add(bearbeiten);
 								
 								
-								
 								Scene scene3 = new Scene(vb3, 400, 800);
-								primaryStage.setScene(scene3);
-								primaryStage.show();
+								secondaryStage.setScene(scene3);
+								secondaryStage.show();
+								
+//								Handler
+								
+							schließen.setOnAction(new EventHandler<ActionEvent>() {
+								public void handle2(ActionEvent event) {
+								secondaryStage.close();
 								}
-						}
-					});}
+						});
+							
+							bearbeiten.setOnAction(new EventHandler<ActionEvent>() {
+								public void handle3(ActionEvent event) {
+								secondaryStage.close();
+								}
+						});
+					}}}});}
 					
 				else {
 
