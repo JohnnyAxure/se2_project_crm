@@ -14,13 +14,17 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
@@ -58,14 +62,14 @@ public class LoginGUI extends Application {
 				"Database_iStock_000020783950XSmall_0.jpg").toExternalForm());
 		vb.getChildren().add(iv);
 
-		Label lbl1 = new Label("Username:");
-		vb.getChildren().add(lbl1);
+		Label username = new Label("Username:");
+		vb.getChildren().add(username);
 
 		final TextField txtUser = new TextField();
 		vb.getChildren().add(txtUser);
 
-		Label lbl2 = new Label("Password:");
-		vb.getChildren().add(lbl2);
+		Label password = new Label("Password:");
+		vb.getChildren().add(password);
 
 		final PasswordField pwf1 = new PasswordField();
 		vb.getChildren().add(pwf1);
@@ -73,9 +77,11 @@ public class LoginGUI extends Application {
 		final Label lblMessage = new Label();
 		vb.getChildren().add(lblMessage);
 
-		Button btn1 = new Button();
-		btn1.setText("Login");
-		vb.getChildren().add(btn1);
+		Button loginButton = new Button();
+		loginButton.setText("Login");
+		// Button mit Enter
+		loginButton.setDefaultButton(true);
+		vb.getChildren().add(loginButton);
 
 		// Adding VBox to the scene
 		final Scene scene = new Scene(vb);
@@ -84,7 +90,7 @@ public class LoginGUI extends Application {
 
 		// Handler
 
-		btn1.setOnAction(new EventHandler<ActionEvent>() {
+		loginButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 
@@ -115,21 +121,23 @@ public class LoginGUI extends Application {
 					add.setText("+");
 					vb2.getChildren().add(add);
 					
-					Driver newdriver = new Driver();
+					final Driver newdriver = new Driver();
 					newdriver.add_wirklichjetzt();
 
-					TableView kundentable = new TableView();
+					final TableView kundentable = new TableView();
 
 					kundentable.setEditable(true);
 					final TableColumn firstNameCol = new TableColumn("Vorname");
 					TableColumn lastNameCol = new TableColumn("Nachname");
 					TableColumn kundennummerCol = new TableColumn("Kundennummer");
+					
 
 					kundentable.getColumns().addAll(firstNameCol, lastNameCol,kundennummerCol);
-
+ 
 					firstNameCol.setMinWidth(100);
 					firstNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Vorname"));
 					
+ 
 					lastNameCol.setMinWidth(100);
 					lastNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Name"));
 					
@@ -141,8 +149,10 @@ public class LoginGUI extends Application {
 					Scene scene2 = new Scene(vb2, 400, 800);
 					primaryStage.setScene(scene2);
 					primaryStage.show();
-
-					// Handler
+					
+					
+					// Handler Kontakt
+				
 
 					kundentable.addEventFilter(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
 								public void handle(MouseEvent event) {
@@ -176,6 +186,10 @@ public class LoginGUI extends Application {
 												50));
 										vb3.setSpacing(5);
 
+							
+										//wählt den Kunden in der angeglickten Zeile aus
+								        final Kunde selected = (Kunde) kundentable.getSelectionModel().getSelectedItem();
+						   
 										Label vorname = new Label();
 										vorname.setText("Vorname:");
 										vorname.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -184,10 +198,12 @@ public class LoginGUI extends Application {
 										vb3.getChildren().add(vorname);
 										
 										final TextField vornameGet = new TextField();
-										vornameGet.setText(Kundenliste.listeDerKunden.get(1).Vorname);
-										vornameGet.setTranslateY(0);
+										vornameGet.setText(selected.Vorname);
+										vornameGet.setTranslateY(-10);
 										vornameGet.setTranslateX(150);
 										vornameGet.setEditable(false);
+										vornameGet.setMouseTransparent(true);
+										vornameGet.setFocusTraversable(false);
 										vornameGet.setMinWidth(50);
 										vornameGet.setPrefWidth(50);
 										vornameGet.setMaxWidth(150);
@@ -196,13 +212,16 @@ public class LoginGUI extends Application {
 										Label nachname = new Label();
 										nachname.setText("Nachname:");
 										nachname.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										nachname.setTranslateY(10);
 										vb3.getChildren().add(nachname);
 										
 										final TextField nachnameGet = new TextField();
-										nachnameGet.setText(Kundenliste.listeDerKunden.get(1).Name);
-										nachnameGet.setTranslateY(0);
+										nachnameGet.setText(selected.Name);
+										nachnameGet.setTranslateY(-20);
 										nachnameGet.setTranslateX(150);
 										nachnameGet.setEditable(false);
+										nachnameGet.setMouseTransparent(true);
+										nachnameGet.setFocusTraversable(false);
 										nachnameGet.setMinWidth(50);
 										nachnameGet.setPrefWidth(50);
 										nachnameGet.setMaxWidth(150);
@@ -211,13 +230,16 @@ public class LoginGUI extends Application {
 										Label straße = new Label();
 										straße.setText("Straße:");
 										straße.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										straße.setTranslateY(0);
 										vb3.getChildren().add(straße);
 										
 										final TextField straßeGet = new TextField();
-										straßeGet.setText(Kundenliste.listeDerKunden.get(1).Straße);
-										straßeGet.setTranslateY(0);
+										straßeGet.setText(selected.Straße);
+										straßeGet.setTranslateY(-30);
 										straßeGet.setTranslateX(150);
 										straßeGet.setEditable(false);
+										straßeGet.setMouseTransparent(true);
+										straßeGet.setFocusTraversable(false);
 										straßeGet.setMinWidth(50);
 										straßeGet.setPrefWidth(50);
 										straßeGet.setMaxWidth(150);
@@ -226,13 +248,16 @@ public class LoginGUI extends Application {
 										Label hausnummer = new Label();
 										hausnummer.setText("Hausnummer:");
 										hausnummer.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										hausnummer.setTranslateY(-10);
 										vb3.getChildren().add(hausnummer);
 										
 										final TextField hausnummerGet = new TextField();
-										hausnummerGet.setText(String.valueOf(Kundenliste.listeDerKunden.get(1).Hausnummer));
-										hausnummerGet.setTranslateY(0);
+										hausnummerGet.setText(String.valueOf(selected.Hausnummer));
+										hausnummerGet.setTranslateY(-40);
 										hausnummerGet.setTranslateX(150);
 										hausnummerGet.setEditable(false);
+										hausnummerGet.setMouseTransparent(true);
+										hausnummerGet.setFocusTraversable(false);
 										hausnummerGet.setMinWidth(50);
 										hausnummerGet.setPrefWidth(50);
 										hausnummerGet.setMaxWidth(150);
@@ -241,13 +266,16 @@ public class LoginGUI extends Application {
 										Label postleitzahl = new Label();
 										postleitzahl.setText("Postleitzahl:");
 										postleitzahl.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										postleitzahl.setTranslateY(-20);
 										vb3.getChildren().add(postleitzahl);
 										
 										final TextField postleitzahlGet = new TextField();
-										postleitzahlGet.setText(String.valueOf(Kundenliste.listeDerKunden.get(1).Postleitzahl));
-										postleitzahlGet.setTranslateY(0);
+										postleitzahlGet.setText(String.valueOf(selected.Postleitzahl));
+										postleitzahlGet.setTranslateY(-50);
 										postleitzahlGet.setTranslateX(150);
 										postleitzahlGet.setEditable(false);
+										postleitzahlGet.setMouseTransparent(true);
+										postleitzahlGet.setFocusTraversable(false);
 										postleitzahlGet.setMinWidth(50);
 										postleitzahlGet.setPrefWidth(50);
 										postleitzahlGet.setMaxWidth(150);
@@ -256,13 +284,16 @@ public class LoginGUI extends Application {
 										Label stadt = new Label();
 										stadt.setText("Stadt:");
 										stadt.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										stadt.setTranslateY(-30);
 										vb3.getChildren().add(stadt);
 										
 										final TextField stadtGet = new TextField();
-										stadtGet.setText(Kundenliste.listeDerKunden.get(1).Stadt);
-										stadtGet.setTranslateY(0);
+										stadtGet.setText(String.valueOf(selected.Stadt));
+										stadtGet.setTranslateY(-60);
 										stadtGet.setTranslateX(150);
 										stadtGet.setEditable(false);
+										stadtGet.setMouseTransparent(true);
+										stadtGet.setFocusTraversable(false);
 										stadtGet.setMinWidth(50);
 										stadtGet.setPrefWidth(50);
 										stadtGet.setMaxWidth(150);
@@ -271,13 +302,16 @@ public class LoginGUI extends Application {
 										Label land = new Label();
 										land.setText("Land:");
 										land.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										land.setTranslateY(-40);
 										vb3.getChildren().add(land);
 										
 										final TextField landGet = new TextField();
-										landGet.setText(Kundenliste.listeDerKunden.get(1).Land);
-										landGet.setTranslateY(0);
+										landGet.setText(String.valueOf(selected.Land));
+										landGet.setTranslateY(-70);
 										landGet.setTranslateX(150);
 										landGet.setEditable(false);
+										landGet.setMouseTransparent(true);
+										landGet.setFocusTraversable(false);
 										landGet.setMinWidth(50);
 										landGet.setPrefWidth(50);
 										landGet.setMaxWidth(150);
@@ -286,13 +320,16 @@ public class LoginGUI extends Application {
 										Label telefon = new Label();
 										telefon.setText("Telefon:");
 										telefon.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										telefon.setTranslateY(-50);
 										vb3.getChildren().add(telefon);
 										
 										final TextField telefonGet = new TextField();
-										telefonGet.setText(Kundenliste.listeDerKunden.get(1).Telefon);
-										telefonGet.setTranslateY(0);
+										telefonGet.setText(String.valueOf(selected.Telefon));
+										telefonGet.setTranslateY(-80);
 										telefonGet.setTranslateX(150);
 										telefonGet.setEditable(false);
+										telefonGet.setMouseTransparent(true);
+										telefonGet.setFocusTraversable(false);
 										telefonGet.setMinWidth(50);
 										telefonGet.setPrefWidth(50);
 										telefonGet.setMaxWidth(150);
@@ -301,13 +338,15 @@ public class LoginGUI extends Application {
 										Label kundennummer = new Label();
 										kundennummer.setText("Kundennummer:");
 										kundennummer.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+										kundennummer.setTranslateY(-60);
 										vb3.getChildren().add(kundennummer);
 										
 										final TextField kundennummerGet = new TextField();
-										kundennummerGet.setText(String.valueOf(Kundenliste.listeDerKunden.get(1).Kundennummer));
-										kundennummerGet.setTranslateY(0);
+										kundennummerGet.setText(String.valueOf(selected.Kundennummer));										kundennummerGet.setTranslateY(-90);
 										kundennummerGet.setTranslateX(150);
 										kundennummerGet.setEditable(false);
+										kundennummerGet.setMouseTransparent(true);
+										kundennummerGet.setFocusTraversable(false);
 										kundennummerGet.setMinWidth(50);
 										kundennummerGet.setPrefWidth(50);
 										kundennummerGet.setMaxWidth(150);
@@ -333,24 +372,62 @@ public class LoginGUI extends Application {
 										bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
 											public void handle(ActionEvent event){
 												vornameGet.setEditable(true);
+												vornameGet.setMouseTransparent(false);
+												vornameGet.setFocusTraversable(true);
+												
 												nachnameGet.setEditable(true);
+												nachnameGet.setMouseTransparent(false);
+												nachnameGet.setFocusTraversable(true);
+												
 												straßeGet.setEditable(true);
+												straßeGet.setMouseTransparent(false);
+												straßeGet.setFocusTraversable(true);
+												
 												hausnummerGet.setEditable(true);
+												hausnummerGet.setMouseTransparent(false);
+												hausnummerGet.setFocusTraversable(true);
+												
 												postleitzahlGet.setEditable(true);
+												postleitzahlGet.setMouseTransparent(false);
+												postleitzahlGet.setFocusTraversable(true);
+												
 												stadtGet.setEditable(true);
+												stadtGet.setMouseTransparent(false);
+												stadtGet.setFocusTraversable(true);
+												
 												landGet.setEditable(true);
+												landGet.setMouseTransparent(false);
+												landGet.setFocusTraversable(true);
+												
 												telefonGet.setEditable(true);
+												telefonGet.setMouseTransparent(false);
+												telefonGet.setFocusTraversable(true);
+												
 												kundennummerGet.setEditable(true);
+												kundennummerGet.setMouseTransparent(false);
+												kundennummerGet.setFocusTraversable(true);
 												
 												bearbeiten.setText("Änderungen speichern");
 												
 												bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
 													public void handle(ActionEvent event){
 														
-														//Überschreiben des ausgewählten Kunden uns seiner Daten
+														selected.setVorname(vornameGet.getText());
+														selected.setName(nachnameGet.getText());
+														selected.setStraße(straßeGet.getText());
+														selected.setHausnummer(Integer.parseInt(hausnummerGet.getText()));
+														selected.setPostleitzahl(Integer.parseInt(postleitzahlGet.getText()));
+														selected.setStadt(stadtGet.getText());
+														selected.setLand(landGet.getText());
+														selected.setTelefon(telefonGet.getText());
+														selected.setKundennummer(Integer.parseInt(kundennummerGet.getText()));
+													
+														kundentable.refresh();
+														
 													}
 											});
 
+												
 											
 												
 											
@@ -358,13 +435,213 @@ public class LoginGUI extends Application {
 										
 										}
 							}});
+					
+					
+					// Handler Kontakt hinzufügen 
+					
+					add.setOnAction(new EventHandler<ActionEvent>(){
+						public void handle(ActionEvent event){	
+							
+							final Stage thirdStage = new Stage();
+							thirdStage.setTitle("Kontakt hinzufügen");
+
+							// specify stage locations.
+							thirdStage.setX(900);
+							thirdStage.setY(400);
+
+							// add a trigger to hide the secondary
+							// stage when the primary stage is
+							// hidden.
+							// this will cause all stages to be
+							// hidden (which will cause the app to
+							// terminate).
+							primaryStage.setOnHidden(new EventHandler<WindowEvent>() {
+
+										public void handle(
+												WindowEvent onClosing) {
+											thirdStage.hide();
+										}
+									});
+
+							System.out.println("double clicked");
+
+							VBox vb4 = new VBox();
+							vb4.setPadding(new Insets(10, 50, 50,
+									50));
+							vb4.setSpacing(5);
+
+							Label vorname = new Label();
+							vorname.setText("Vorname:");
+							vorname.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							vorname.setTranslateY(20);
+							vorname.setTranslateX(1);
+							vb4.getChildren().add(vorname);
+							
+							final TextField vornameSet = new TextField();
+							vornameSet.setTranslateY(-10);
+							vornameSet.setTranslateX(150);
+							vornameSet.setMinWidth(50);
+							vornameSet.setPrefWidth(50);
+							vornameSet.setMaxWidth(150);
+							vb4.getChildren().add(vornameSet);
+							
+							Label nachname = new Label();
+							nachname.setText("Nachname:");
+							nachname.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							nachname.setTranslateY(10);
+							vb4.getChildren().add(nachname);
+							
+							final TextField nachnameSet = new TextField();
+							nachnameSet.setTranslateY(-20);
+							nachnameSet.setTranslateX(150);
+							nachnameSet.setMinWidth(50);
+							nachnameSet.setPrefWidth(50);
+							nachnameSet.setMaxWidth(150);
+							vb4.getChildren().add(nachnameSet);
+							
+							Label straße = new Label();
+							straße.setText("Straße:");
+							straße.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							straße.setTranslateY(0);
+							vb4.getChildren().add(straße);
+							
+							final TextField straßeSet = new TextField();
+							straßeSet.setTranslateY(-30);
+							straßeSet.setTranslateX(150);
+							straßeSet.setMinWidth(50);
+							straßeSet.setPrefWidth(50);
+							straßeSet.setMaxWidth(150);
+							vb4.getChildren().add(straßeSet);
+							
+							Label hausnummer = new Label();
+							hausnummer.setText("Hausnummer:");
+							hausnummer.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							hausnummer.setTranslateY(-10);
+							vb4.getChildren().add(hausnummer);
+							
+							final TextField hausnummerSet = new TextField();
+							hausnummerSet.setTranslateY(-40);
+							hausnummerSet.setTranslateX(150);
+							hausnummerSet.setMinWidth(50);
+							hausnummerSet.setPrefWidth(50);
+							hausnummerSet.setMaxWidth(150);
+							vb4.getChildren().add(hausnummerSet);
+							
+							Label postleitzahl = new Label();
+							postleitzahl.setText("Postleitzahl:");
+							postleitzahl.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							postleitzahl.setTranslateY(-20);
+							vb4.getChildren().add(postleitzahl);
+							
+							final TextField postleitzahlSet = new TextField();
+							postleitzahlSet.setTranslateY(-50);
+							postleitzahlSet.setTranslateX(150);
+							postleitzahlSet.setMinWidth(50);
+							postleitzahlSet.setPrefWidth(50);
+							postleitzahlSet.setMaxWidth(150);
+							vb4.getChildren().add(postleitzahlSet);
+							
+							Label stadt = new Label();
+							stadt.setText("Stadt:");
+							stadt.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							stadt.setTranslateY(-30);
+							vb4.getChildren().add(stadt);
+							
+							final TextField stadtSet = new TextField();
+							stadtSet.setTranslateY(-60);
+							stadtSet.setTranslateX(150);
+							stadtSet.setMinWidth(50);
+							stadtSet.setPrefWidth(50);
+							stadtSet.setMaxWidth(150);
+							vb4.getChildren().add(stadtSet);
+							
+							Label land = new Label();
+							land.setText("Land:");
+							land.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							land.setTranslateY(-40);
+							vb4.getChildren().add(land);
+							
+							final TextField landSet = new TextField();
+							landSet.setTranslateY(-70);
+							landSet.setTranslateX(150);
+							landSet.setMinWidth(50);
+							landSet.setPrefWidth(50);
+							landSet.setMaxWidth(150);
+							vb4.getChildren().add(landSet);
+							
+							Label telefon = new Label();
+							telefon.setText("Telefon:");
+							telefon.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							telefon.setTranslateY(-50);
+							vb4.getChildren().add(telefon);
+							
+							final TextField telefonSet = new TextField();
+							telefonSet.setTranslateY(-80);
+							telefonSet.setTranslateX(150);
+							telefonSet.setMinWidth(50);
+							telefonSet.setPrefWidth(50);
+							telefonSet.setMaxWidth(150);
+							vb4.getChildren().add(telefonSet);
+							
+							Label kundennummer = new Label();
+							kundennummer.setText("Kundennummer:");
+							kundennummer.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+							kundennummer.setTranslateY(-60);
+							vb4.getChildren().add(kundennummer);
+							
+							final TextField kundennummerSet = new TextField();
+							kundennummerSet.setTranslateY(-90);
+							kundennummerSet.setTranslateX(150);
+							kundennummerSet.setMinWidth(50);
+							kundennummerSet.setPrefWidth(50);
+							kundennummerSet.setMaxWidth(150);
+							vb4.getChildren().add(kundennummerSet);
+							
+							
+							Button speichern = new Button();
+							speichern.setText("Speichern");
+							vb4.getChildren().add(speichern);
+
+
+							Scene scene3 = new Scene(vb4, 600, 600);
+							thirdStage.setScene(scene3);
+
+							thirdStage.show();
+							
+							// Handler speichern
+							
+							speichern.setOnAction(new EventHandler<ActionEvent>(){
+								public void handle(ActionEvent event){
+									
+									
+									newdriver.add(
+											"Kunde",
+											nachnameSet.getText(),
+											vornameSet.getText(),
+											straßeSet.getText(),
+											Integer.parseInt(hausnummerSet.getText()),
+											Integer.parseInt(postleitzahlSet.getText()),
+											stadtSet.getText(),
+											landSet.getText(),
+											telefonSet.getText(),
+											Integer.parseInt(kundennummerSet.getText()
+											
+										 
+									    ));
+									
+									thirdStage.hide();
+								
+							}});
 				
+						}});
 				}
 				else {
 
 					lblMessage.setText("Incorrect user or pw.");
 
 					lblMessage.setTextFill(Color.RED);
+					
+					txtUser.requestFocus();
 
 				}
 
