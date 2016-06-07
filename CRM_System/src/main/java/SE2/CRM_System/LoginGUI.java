@@ -378,22 +378,28 @@ public class LoginGUI extends Application {
 													fourthStage.setTitle("Kontakt");
 													fourthStage.setWidth(800);
 													fourthStage.setHeight(400);   
-										            final HTMLEditor htmlEditor = new HTMLEditor();
-										            htmlEditor.setPrefHeight(245);
-										            
-										            htmlEditor.setStyle(
-										                    "-fx-font: 12 cambria;"
-										                    + "-fx-border-color: black; "
-										                    + "-fx-border-width: 10;"
-										                );
-										            
-										            final String INITIAL_TEXT = "<html><body>Kontaktfenster, falls noch kein Kontakt zu diesem Kunden angelegt, bitte hier anlegen:</body></html>";
+													
+													final HTMLEditor htmlEditor = new HTMLEditor();
+													
+													htmlEditor.setHtmlText(selected.Notiz.getHtmlText());
+										
+										            //final String INITIAL_TEXT = "<html><body>Kontaktfenster, falls noch kein Kontakt zu diesem Kunden angelegt, bitte hier anlegen:</body></html>";
 
-										                htmlEditor.setHtmlText(INITIAL_TEXT);
-										            
+		
 										            Scene scene = new Scene(htmlEditor);       
 										            fourthStage.setScene(scene);
 										            fourthStage.show();
+										            
+										            fourthStage.setOnHidden(new EventHandler<WindowEvent>() {
+
+														public void handle(
+																WindowEvent onClosing) {
+															
+															selected.Notiz =  htmlEditor;
+															
+															fourthStage.hide();
+														}
+													});
 										        }
 												
 									});
@@ -650,6 +656,8 @@ public class LoginGUI extends Application {
 								public void handle(ActionEvent event){
 									
 									
+									HTMLEditor Notiz= new HTMLEditor();
+									
 									newdriver.add(
 											"Kunde",
 											nachnameSet.getText(),
@@ -660,7 +668,8 @@ public class LoginGUI extends Application {
 											stadtSet.getText(),
 											landSet.getText(),
 											telefonSet.getText(),
-											Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1
+											Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
+											Notiz
 										
 											
 									    );

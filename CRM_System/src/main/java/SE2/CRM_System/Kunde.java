@@ -1,6 +1,7 @@
 package SE2.CRM_System;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.web.HTMLEditor;
 
 public class Kunde implements IKunde {
 
@@ -14,12 +15,15 @@ public class Kunde implements IKunde {
 	String Land;
 	String Telefon;
 	int Kundennummer;
+	HTMLEditor Notiz = new HTMLEditor();
+	
+	
 
 	// String Email;
 
 	public Kunde(String type, String Name, String Vorname, String Straße, int Hausnummer,
 			int Postleitzahl, String Stadt, String Land, String Telefon,
-			int Kundennummer) {
+			int Kundennummer,HTMLEditor Notiz) {
 		this.type = type;
 		this.Name = Name;
 		this.Vorname = Vorname;
@@ -30,7 +34,10 @@ public class Kunde implements IKunde {
 		this.Land = Land;
 		this.Telefon = Telefon;
 		this.Kundennummer = Kundennummer;
+		this.Notiz = Notiz;
 	}
+	
+	 
 
 	/* (non-Javadoc)
 	 * @see SE2.CRM_System.IKunde#getName()22
@@ -159,6 +166,19 @@ public class Kunde implements IKunde {
 		Kundennummer = kundennummer;
 	}
 
+	/* (non-Javadoc)
+	 * @see SE2.CRM_System.IKunde#getNotiz()
+	 */
+	public HTMLEditor getNotiz() {
+		return Notiz;
+	}
+
+	/* (non-Javadoc)
+	 * @see SE2.CRM_System.IKunde#setNotiz(HTMLEditor)
+	 */
+	public void setNotiz(HTMLEditor notiz) {
+		Notiz = notiz;
+	}
 	/* (non-Javadoc)
 	 * @see SE2.CRM_System.IKunde#getAll()
 	 */
