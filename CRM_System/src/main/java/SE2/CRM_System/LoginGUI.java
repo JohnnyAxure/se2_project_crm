@@ -371,12 +371,31 @@ public class LoginGUI extends Application {
 										//Handler
 								
 										
-										bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
+										notiz.setOnAction(new EventHandler<ActionEvent>(){
 											public void handle(ActionEvent event){
 												
+													final Stage fourthStage = new Stage();
+													fourthStage.setTitle("Kontakt");
+													fourthStage.setWidth(800);
+													fourthStage.setHeight(400);   
+										            final HTMLEditor htmlEditor = new HTMLEditor();
+										            htmlEditor.setPrefHeight(245);
+										            
+										            htmlEditor.setStyle(
+										                    "-fx-font: 12 cambria;"
+										                    + "-fx-border-color: black; "
+										                    + "-fx-border-width: 10;"
+										                );
+										            
+										            final String INITIAL_TEXT = "<html><body>Kontaktfenster, falls noch kein Kontakt zu diesem Kunden angelegt, bitte hier anlegen:</body></html>";
+
+										                htmlEditor.setHtmlText(INITIAL_TEXT);
+										            
+										            Scene scene = new Scene(htmlEditor);       
+										            fourthStage.setScene(scene);
+										            fourthStage.show();
+										        }
 												
-												
-											}
 									});
 										
 										
