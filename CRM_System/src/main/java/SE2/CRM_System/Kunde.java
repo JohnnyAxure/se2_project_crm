@@ -140,8 +140,8 @@ public class Kunde implements IKunde {
 	/* (non-Javadoc)
 	 * @see SE2.CRM_System.IKunde#setTelefon(java.lang.String)
 	 */
-	public void setTelefon(String Telefon) {
-		Telefon = Telefon;
+	public void setTelefon(String telefon) {
+		Telefon = telefon;
 	}
 	
 

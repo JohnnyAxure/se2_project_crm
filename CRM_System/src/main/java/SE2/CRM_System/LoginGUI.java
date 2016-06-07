@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.HTMLEditor;
 import javafx.scene.input.MouseEvent;
 
 public class LoginGUI extends Application {
@@ -366,7 +367,21 @@ public class LoginGUI extends Application {
 
 										secondaryStage.show();
 										
+										
+										//Handler
+								
+										
+										bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
+											public void handle(ActionEvent event){
+												
+												
+												
+											}
+									});
+										
+										
 										// Handler
+										
 										
 										
 										bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
@@ -403,9 +418,7 @@ public class LoginGUI extends Application {
 												telefonGet.setMouseTransparent(false);
 												telefonGet.setFocusTraversable(true);
 												
-												kundennummerGet.setEditable(true);
-												kundennummerGet.setMouseTransparent(false);
-												kundennummerGet.setFocusTraversable(true);
+												
 												
 												bearbeiten.setText("Änderungen speichern");
 												
@@ -420,7 +433,7 @@ public class LoginGUI extends Application {
 														selected.setStadt(stadtGet.getText());
 														selected.setLand(landGet.getText());
 														selected.setTelefon(telefonGet.getText());
-														selected.setKundennummer(Integer.parseInt(kundennummerGet.getText()));
+														
 													
 														kundentable.refresh();
 														
@@ -590,6 +603,10 @@ public class LoginGUI extends Application {
 							vb4.getChildren().add(kundennummer);
 							
 							final TextField kundennummerSet = new TextField();
+							kundennummerSet.setText(String.valueOf(Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1));
+							kundennummerSet.setEditable(false);
+							kundennummerSet.setMouseTransparent(true);
+							kundennummerSet.setFocusTraversable(false);
 							kundennummerSet.setTranslateY(-90);
 							kundennummerSet.setTranslateX(150);
 							kundennummerSet.setMinWidth(50);
@@ -624,10 +641,10 @@ public class LoginGUI extends Application {
 											stadtSet.getText(),
 											landSet.getText(),
 											telefonSet.getText(),
-											Integer.parseInt(kundennummerSet.getText()
+											Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1
+										
 											
-										 
-									    ));
+									    );
 									
 									thirdStage.hide();
 								
