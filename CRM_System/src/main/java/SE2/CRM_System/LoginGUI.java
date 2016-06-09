@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.CheckBox;
@@ -40,6 +41,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.input.MouseEvent;
+
 
 public class LoginGUI extends Application {
 
@@ -186,7 +188,8 @@ public class LoginGUI extends Application {
 										vb3.setPadding(new Insets(10, 50, 50,
 												50));
 										vb3.setSpacing(5);
-
+                                        
+										
 							
 										//wählt den Kunden in der angeglickten Zeile aus
 								        final Kunde selected = (Kunde) kundentable.getSelectionModel().getSelectedItem();
@@ -199,15 +202,18 @@ public class LoginGUI extends Application {
 										vb3.getChildren().add(vorname);
 										
 										final TextField vornameGet = new TextField();
+										final String style = vornameGet.getStyle();
 										vornameGet.setText(selected.Vorname);
 										vornameGet.setTranslateY(-10);
 										vornameGet.setTranslateX(150);
 										vornameGet.setEditable(false);
+										//vornameGet.setFont(Font.font("Verdana", FontWeight.BLACK.EXTRA_BOLD, 15));
 										vornameGet.setMouseTransparent(true);
 										vornameGet.setFocusTraversable(false);
 										vornameGet.setMinWidth(50);
 										vornameGet.setPrefWidth(50);
 										vornameGet.setMaxWidth(150);
+										vornameGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(vornameGet);
 										
 										Label nachname = new Label();
@@ -226,6 +232,7 @@ public class LoginGUI extends Application {
 										nachnameGet.setMinWidth(50);
 										nachnameGet.setPrefWidth(50);
 										nachnameGet.setMaxWidth(150);
+										nachnameGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(nachnameGet);
 										
 										Label straße = new Label();
@@ -244,6 +251,7 @@ public class LoginGUI extends Application {
 										straßeGet.setMinWidth(50);
 										straßeGet.setPrefWidth(50);
 										straßeGet.setMaxWidth(150);
+										straßeGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(straßeGet);
 										
 										Label hausnummer = new Label();
@@ -262,6 +270,7 @@ public class LoginGUI extends Application {
 										hausnummerGet.setMinWidth(50);
 										hausnummerGet.setPrefWidth(50);
 										hausnummerGet.setMaxWidth(150);
+										hausnummerGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(hausnummerGet);
 										
 										Label postleitzahl = new Label();
@@ -280,6 +289,7 @@ public class LoginGUI extends Application {
 										postleitzahlGet.setMinWidth(50);
 										postleitzahlGet.setPrefWidth(50);
 										postleitzahlGet.setMaxWidth(150);
+										postleitzahlGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(postleitzahlGet);
 										
 										Label stadt = new Label();
@@ -298,6 +308,7 @@ public class LoginGUI extends Application {
 										stadtGet.setMinWidth(50);
 										stadtGet.setPrefWidth(50);
 										stadtGet.setMaxWidth(150);
+										stadtGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(stadtGet);
 										
 										Label land = new Label();
@@ -316,6 +327,7 @@ public class LoginGUI extends Application {
 										landGet.setMinWidth(50);
 										landGet.setPrefWidth(50);
 										landGet.setMaxWidth(150);
+										landGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(landGet);
 										
 										Label telefon = new Label();
@@ -334,6 +346,7 @@ public class LoginGUI extends Application {
 										telefonGet.setMinWidth(50);
 										telefonGet.setPrefWidth(50);
 										telefonGet.setMaxWidth(150);
+										telefonGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(telefonGet);
 										
 										Label kundennummer = new Label();
@@ -351,6 +364,7 @@ public class LoginGUI extends Application {
 										kundennummerGet.setMinWidth(50);
 										kundennummerGet.setPrefWidth(50);
 										kundennummerGet.setMaxWidth(150);
+										kundennummerGet.setStyle("-fx-background-color: whitesmoke");
 										vb3.getChildren().add(kundennummerGet);
 										
 										
@@ -411,37 +425,48 @@ public class LoginGUI extends Application {
 										
 										bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
 											public void handle(ActionEvent event){
+												
+																								
 												vornameGet.setEditable(true);
 												vornameGet.setMouseTransparent(false);
 												vornameGet.setFocusTraversable(true);
+												vornameGet.setStyle(style);
+												
 												
 												nachnameGet.setEditable(true);
 												nachnameGet.setMouseTransparent(false);
 												nachnameGet.setFocusTraversable(true);
+												nachnameGet.setStyle(style);
 												
 												straßeGet.setEditable(true);
 												straßeGet.setMouseTransparent(false);
 												straßeGet.setFocusTraversable(true);
+												straßeGet.setStyle(style);
 												
 												hausnummerGet.setEditable(true);
 												hausnummerGet.setMouseTransparent(false);
 												hausnummerGet.setFocusTraversable(true);
+												hausnummerGet.setStyle(style);
 												
 												postleitzahlGet.setEditable(true);
 												postleitzahlGet.setMouseTransparent(false);
 												postleitzahlGet.setFocusTraversable(true);
+												postleitzahlGet.setStyle(style);
 												
 												stadtGet.setEditable(true);
 												stadtGet.setMouseTransparent(false);
 												stadtGet.setFocusTraversable(true);
+												stadtGet.setStyle(style);
 												
 												landGet.setEditable(true);
 												landGet.setMouseTransparent(false);
 												landGet.setFocusTraversable(true);
+												landGet.setStyle(style);
 												
 												telefonGet.setEditable(true);
 												telefonGet.setMouseTransparent(false);
 												telefonGet.setFocusTraversable(true);
+												telefonGet.setStyle(style);
 												
 												
 												
@@ -657,7 +682,23 @@ public class LoginGUI extends Application {
 									
 									
 									HTMLEditor Notiz= new HTMLEditor();
+									Boolean first =true;
 									
+									for(int i=0; i < Kundenliste.listeDerKunden.size(); i++){
+										if ( Kundenliste.listeDerKunden.get(i).Vorname.toLowerCase().equals(vornameSet.getText().toLowerCase()) &&
+										     Kundenliste.listeDerKunden.get(i).Name.toLowerCase().equals(nachnameSet.getText().toLowerCase())	&&
+										     Kundenliste.listeDerKunden.get(i).Hausnummer ==Integer.parseInt(hausnummerSet.getText()) &&
+										     Kundenliste.listeDerKunden.get(i).Land.toLowerCase().equals(landSet.getText().toLowerCase()) &&
+										     Kundenliste.listeDerKunden.get(i).Postleitzahl== Integer.parseInt(postleitzahlSet.getText()) &&
+										     Kundenliste.listeDerKunden.get(i).Stadt.toLowerCase().equals(stadtSet.getText().toLowerCase()) &&
+										     Kundenliste.listeDerKunden.get(i).Straße.toLowerCase().equals(straßeSet.getText().toLowerCase()) &&
+										     Kundenliste.listeDerKunden.get(i).Telefon.toLowerCase().equals(telefonSet.getText().toLowerCase()))
+											
+											first= false;
+										}
+									
+									
+									if(first){
 									newdriver.add(
 											"Kunde",
 											nachnameSet.getText(),
@@ -671,12 +712,19 @@ public class LoginGUI extends Application {
 											Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
 											Notiz
 										
-											
 									    );
-									
+
 									thirdStage.hide();
+									}
+									else{
+									//popup Kunde existiert bereits
+										
+									}
+									
+									
 								
 							}});
+							
 				
 						}});
 				}
