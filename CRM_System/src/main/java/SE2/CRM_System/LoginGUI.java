@@ -662,6 +662,7 @@ public class LoginGUI extends Application {
 							kundennummerSet.setMinWidth(50);
 							kundennummerSet.setPrefWidth(50);
 							kundennummerSet.setMaxWidth(150);
+							kundennummerSet.setStyle("-fx-background-color: whitesmoke");
 							vb4.getChildren().add(kundennummerSet);
 							
 							
@@ -718,6 +719,24 @@ public class LoginGUI extends Application {
 									}
 									else{
 									//popup Kunde existiert bereits
+										final Stage fifthStage = new Stage();
+										fifthStage.setTitle("Kontakt hinzufügen");
+
+										VBox vb5 = new VBox();
+										vb5.setPadding(new Insets(10, 50, 50,
+												50));
+										vb5.setSpacing(5);
+										
+										Label infotext = new Label();
+										infotext.setText("Kunde existiert bereits. Wollen Sie ihn trotzdem anlegen?");
+										
+										vb5.getChildren().add(infotext);
+										
+										
+										Scene scene5 = new Scene(vb5, 300, 150);
+										fifthStage.setScene(scene5);
+										fifthStage.show();
+
 										
 									}
 									
