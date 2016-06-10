@@ -1,5 +1,7 @@
 package SE2.CRM_System;
 
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,7 +12,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -53,7 +59,7 @@ public class LoginGUI extends Application {
 
 		/*
 		 * 
-		 * DAS HIER DRIN LASSEN!!111einself123
+		 * DAS HIER DRIN LASSEN!!
 		 */
 		final Kundenliste kundenliste = new Kundenliste();
 
@@ -207,7 +213,6 @@ public class LoginGUI extends Application {
 										vornameGet.setTranslateY(-10);
 										vornameGet.setTranslateX(150);
 										vornameGet.setEditable(false);
-										//vornameGet.setFont(Font.font("Verdana", FontWeight.BLACK.EXTRA_BOLD, 15));
 										vornameGet.setMouseTransparent(true);
 										vornameGet.setFocusTraversable(false);
 										vornameGet.setMinWidth(50);
@@ -397,9 +402,7 @@ public class LoginGUI extends Application {
 													
 													htmlEditor.setHtmlText(selected.Notiz.getHtmlText());
 										
-										            //final String INITIAL_TEXT = "<html><body>Kontaktfenster, falls noch kein Kontakt zu diesem Kunden angelegt, bitte hier anlegen:</body></html>";
-
-		
+										           
 										            Scene scene = new Scene(htmlEditor);       
 										            fourthStage.setScene(scene);
 										            fourthStage.show();
@@ -475,6 +478,22 @@ public class LoginGUI extends Application {
 												bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
 													public void handle(ActionEvent event){
 														
+														try{
+			                                                Integer.parseInt(postleitzahlGet.getText());
+			                                                Integer.parseInt(hausnummerGet.getText());
+			                                            
+			                                         }
+			                                         catch (NumberFormatException f){
+			                                            
+			                                             System.out.println("Fehler");
+			                                            
+			                                             Alert formatException2 = new Alert(AlertType.WARNING);
+			                                             formatException2.setTitle("Falsche Eingabe");
+			                                             formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
+
+			                                             formatException2.showAndWait();
+			                                         }
+														
 														selected.setVorname(vornameGet.getText());
 														selected.setName(nachnameGet.getText());
 														selected.setStraße(straßeGet.getText());
@@ -525,8 +544,6 @@ public class LoginGUI extends Application {
 											thirdStage.hide();
 										}
 									});
-
-							System.out.println("double clicked");
 
 							VBox vb4 = new VBox();
 							vb4.setPadding(new Insets(10, 50, 50,
@@ -682,6 +699,22 @@ public class LoginGUI extends Application {
 								public void handle(ActionEvent event){
 									
 									
+									try{
+                                        Integer.parseInt(postleitzahlSet.getText());
+                                        Integer.parseInt(hausnummerSet.getText());
+                                    
+                                 }
+                                 catch (NumberFormatException f){
+                                    
+                                     System.out.println("Fehler");
+                                    
+                                     Alert formatException2 = new Alert(AlertType.WARNING);
+                                     formatException2.setTitle("Falsche Eingabe");
+                                     formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
+
+                                     formatException2.showAndWait();
+                                 }
+									
 									HTMLEditor Notiz= new HTMLEditor();
 									Boolean first =true;
 									
@@ -718,26 +751,43 @@ public class LoginGUI extends Application {
 									thirdStage.hide();
 									}
 									else{
-									//popup Kunde existiert bereits
-										final Stage fifthStage = new Stage();
-										fifthStage.setTitle("Kontakt hinzufügen");
+                                        
+                                         Alert doppelterKunde = new Alert(AlertType.INFORMATION);
+                                         doppelterKunde.setTitle("Kunde existiert bereits");
+                                         doppelterKunde.setContentText("Kunde existiert bereits. Wollen Sie ihn trotzdem nochmal anlegen?");
 
-										VBox vb5 = new VBox();
-										vb5.setPadding(new Insets(10, 50, 50,
-												50));
-										vb5.setSpacing(5);
-										
-										Label infotext = new Label();
-										infotext.setText("Kunde existiert bereits. Wollen Sie ihn trotzdem anlegen?");
-										
-										vb5.getChildren().add(infotext);
-										
-										
-										Scene scene5 = new Scene(vb5, 300, 150);
-										fifthStage.setScene(scene5);
-										fifthStage.show();
+          
+                                         ButtonType yesButton = new ButtonType("Ja");
+                                         ButtonType noButton = new ButtonType("Nein", ButtonData.CANCEL_CLOSE);
 
-										
+                                         doppelterKunde.getButtonTypes().setAll(yesButton, noButton);
+
+                                         Optional<ButtonType> result = doppelterKunde.showAndWait();
+                                         if (result.get() == yesButton){
+                                             
+                                        	 newdriver.add(
+         											"Kunde",
+         											nachnameSet.getText(),
+         											vornameSet.getText(),
+         											straßeSet.getText(),
+         											Integer.parseInt(hausnummerSet.getText()),
+         											Integer.parseInt(postleitzahlSet.getText()),
+         											stadtSet.getText(),
+         											landSet.getText(),
+         											telefonSet.getText(),
+         											Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
+         											Notiz
+         										
+         									    );
+                                        	 thirdStage.hide();
+                                        	 
+                                         } else if (result.get() == noButton) {
+                                        	 doppelterKunde.hide();
+                                             
+                                         } else {
+                                        	 doppelterKunde.hide();
+                                            
+                                         }
 									}
 									
 									
@@ -749,7 +799,7 @@ public class LoginGUI extends Application {
 				}
 				else {
 
-					lblMessage.setText("Incorrect user or pw.");
+					lblMessage.setText("Falsches Passwort oder Name");
 
 					lblMessage.setTextFill(Color.RED);
 					
