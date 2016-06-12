@@ -3,16 +3,6 @@ package SE2.CRM_System;
 import javafx.scene.web.HTMLEditor;
 
 public class Driver {
-
-	public static void main(String[] args) {
-
-		
-		
-	
-	
-
-	
-	}
 	
 	public void add(String type, String Name, String Vorname, String Straße, int Hausnummer,
 			int Postleitzahl, String Stadt, String Land, String Telefon,

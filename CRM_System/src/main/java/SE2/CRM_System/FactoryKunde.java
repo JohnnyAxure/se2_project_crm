@@ -14,11 +14,11 @@ public class FactoryKunde extends Kundenliste{
 			Kunde temp = new Kunde(type, Name, Vorname, Straße, Hausnummer, Postleitzahl, Stadt, Land, Telefon, Kundennummer,Notiz);
 			
 			listeDerKunden.add(temp);
-//			return new Kunde(Name, Vorname, Straße, Hausnummer, Postleitzahl,
-//					Stadt, Land, Telefon, Kundennummer);
-return temp;			
+			
+            return temp;			
 			
 		} else {
+			
 			return null;
 		}
 
