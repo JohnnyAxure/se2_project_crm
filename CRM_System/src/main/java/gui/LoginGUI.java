@@ -1,4 +1,4 @@
-package SE2.CRM_System;
+package gui;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import persons.Admin;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

@@ -1,6 +1,8 @@
-package SE2.CRM_System;
+package mainFunctionality;
 
 import javafx.scene.web.HTMLEditor;
+import persons.IKunde;
+import persons.Kunde;
 
 public class FactoryKunde extends Kundenliste{
 

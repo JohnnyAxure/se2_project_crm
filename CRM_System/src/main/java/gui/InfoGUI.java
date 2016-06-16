@@ -1,4 +1,4 @@
-package SE2.CRM_System;
+package gui;
 
 import java.util.Optional;
 
@@ -20,6 +20,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import mainFunctionality.Kundenliste;
+import persons.Kunde;
 
 
 public abstract class InfoGUI extends Application {

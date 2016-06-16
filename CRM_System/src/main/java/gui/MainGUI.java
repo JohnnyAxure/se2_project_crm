@@ -1,8 +1,9 @@
-package SE2.CRM_System;
+package gui;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +28,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import mainFunctionality.Driver;
+import mainFunctionality.Kundenliste;
+import persons.Kunde;
 
 public abstract class MainGUI extends Application{
 

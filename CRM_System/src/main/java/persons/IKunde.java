@@ -1,4 +1,4 @@
-package SE2.CRM_System;
+package persons;
 
 public interface IKunde {
 

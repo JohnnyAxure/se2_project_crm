@@ -1,20 +1,20 @@
-package SE2.CRM_System;
+package persons;
 
 import javafx.scene.web.HTMLEditor;
 
 public class Kunde implements IKunde {
 
-	String type;
-	String Name;
-	String Vorname;
-	String Straße;
-	int Hausnummer;
-	int Postleitzahl;
-	String Stadt;
-	String Land;
-	String Telefon;
-	int Kundennummer;
-	HTMLEditor Notiz = new HTMLEditor();
+	public String type;
+	public String Name;
+	public String Vorname;
+	public String Straße;
+	public int Hausnummer;
+	public int Postleitzahl;
+	public String Stadt;
+	public String Land;
+	public String Telefon;
+	public int Kundennummer;
+	public HTMLEditor Notiz = new HTMLEditor();
 	
 	
 
