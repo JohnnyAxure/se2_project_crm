@@ -1,7 +1,11 @@
 package SE2.CRM_System;
 
+import mainFunctionality.Kundenliste;
+
 import org.junit.Test;
 import org.junit.Assert;
+
+import persons.Admin;
 
 public class CRM_System_Test {
 
