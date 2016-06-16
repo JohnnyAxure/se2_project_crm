@@ -1,6 +1,5 @@
 package SE2.CRM_System;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.web.HTMLEditor;
 
 public class Kunde implements IKunde {

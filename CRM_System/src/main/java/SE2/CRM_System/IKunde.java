@@ -1,7 +1,5 @@
 package SE2.CRM_System;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public interface IKunde {
 
 	public abstract String getName();

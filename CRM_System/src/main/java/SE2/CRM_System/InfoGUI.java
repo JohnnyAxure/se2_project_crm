@@ -1,5 +1,7 @@
 package SE2.CRM_System;
 
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,10 +9,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,15 +25,15 @@ import javafx.stage.WindowEvent;
 public abstract class InfoGUI extends Application {
 
 
-	public static void startInfoGUI(final Stage thirdStage, final Kunde selected){
+	
+
+	public static void startInfoGUI(final Stage infoStage,final Stage mainStage, final Kunde selected){
 
 
 		
-		thirdStage.setTitle("Kontakt");
-
-		// specify stage locations.
-		thirdStage.setX(900);
-		thirdStage.setY(400);
+		infoStage.setTitle("Kontakt");
+        infoStage.setX(900);
+		infoStage.setY(400);
 
 		// add a trigger to hide the secondary
 		// stage when the primary stage is
@@ -38,11 +41,18 @@ public abstract class InfoGUI extends Application {
 		// this will cause all stages to be
 		// hidden (which will cause the app to
 		// terminate).
-		thirdStage.setOnHidden(new EventHandler<WindowEvent>() {
+		mainStage.setOnHidden(new EventHandler<WindowEvent>() {
+
+			public void handle(
+					WindowEvent onClosing) {
+				infoStage.hide();
+			}
+		});
+		infoStage.setOnHidden(new EventHandler<WindowEvent>() {
 
 					public void handle(
 							WindowEvent onClosing) {
-						thirdStage.hide();
+						infoStage.hide();
 					}
 				});
 
@@ -54,10 +64,6 @@ public abstract class InfoGUI extends Application {
 		vb3.setSpacing(5);
         
 		
-
-		
-		//wählt den Kunden in der angeglickten Zeile aus
-        //final Kunde selected = (Kunde) MainGUI.kundentable.getSelectionModel().getSelectedItem();
 
 		Label vorname = new Label();
 		vorname.setText("Vorname:");
@@ -234,17 +240,31 @@ public abstract class InfoGUI extends Application {
 		
 		
 		Button notiz = new Button();
+		notiz.setTranslateY(-50);
 		notiz.setText("Kontaktnotiz");
 		vb3.getChildren().add(notiz);
 
 		final Button bearbeiten = new Button();
+		bearbeiten.setTranslateY(-85);
+		bearbeiten.setTranslateX(190);
 		bearbeiten.setText("Bearbeiten");
 		vb3.getChildren().add(bearbeiten);
+		
+	    Button speichern = new Button();
+	    speichern.setTranslateY(-105);
+	    speichern.setTranslateX(190);
+	    speichern.setText("Speichern");
+	  
+		Button löschen = new Button();
+		löschen.setTranslateY(-120);
+		löschen.setTranslateX(350);
+		löschen.setText("Kunde löschen");
+		vb3.getChildren().add(löschen);
 
 		Scene scene3 = new Scene(vb3, 600, 600);
-		thirdStage.setScene(scene3);
+		infoStage.setScene(scene3);
 
-		thirdStage.show();
+		infoStage.show();
 		
 		
 		//Handler
@@ -253,10 +273,10 @@ public abstract class InfoGUI extends Application {
 		notiz.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				
-					final Stage fourthStage = new Stage();
-					fourthStage.setTitle("Kontakt");
-					fourthStage.setWidth(800);
-					fourthStage.setHeight(400);   
+					final Stage notizStage = new Stage();
+					notizStage.setTitle("Kontakt");
+					notizStage.setWidth(800);
+					notizStage.setHeight(400);   
 					
 					final HTMLEditor htmlEditor = new HTMLEditor();
 					
@@ -264,17 +284,17 @@ public abstract class InfoGUI extends Application {
 		
 		           
 		            Scene scene = new Scene(htmlEditor);       
-		            fourthStage.setScene(scene);
-		            fourthStage.show();
+		            notizStage.setScene(scene);
+		            notizStage.show();
 		            
-		            fourthStage.setOnHidden(new EventHandler<WindowEvent>() {
+		            notizStage.setOnHidden(new EventHandler<WindowEvent>() {
 
 						public void handle(
 								WindowEvent onClosing) {
 							
 							selected.Notiz =  htmlEditor;
 							
-							fourthStage.hide();
+							notizStage.hide();
 						}
 					});
 		        }
@@ -282,11 +302,11 @@ public abstract class InfoGUI extends Application {
 	});
 		
 		
+		
 		// Handler
 		
-		
-		
 		bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
+			
 			public void handle(ActionEvent event){
 				
 																
@@ -331,46 +351,137 @@ public abstract class InfoGUI extends Application {
 				telefonGet.setFocusTraversable(true);
 				telefonGet.setStyle(style);
 				
+				vb3.getChildren().remove(bearbeiten);
+				vb3.getChildren().add(speichern);
 				
+				speichern.setTranslateY(-120);
+				speichern.setTranslateX(190);
+				löschen.setTranslateY(-84);
+				löschen.setTranslateX(350);
+			    
 				
-				bearbeiten.setText("Änderungen speichern");
-				
-				bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
-					public void handle(ActionEvent event){
-						
-						try{
-                            Integer.parseInt(postleitzahlGet.getText());
-                            Integer.parseInt(hausnummerGet.getText());
-                        
-                     }
-                     catch (NumberFormatException f){
-                        
-                         System.out.println("Fehler");
-                        
-                         Alert formatException2 = new Alert(AlertType.WARNING);
-                         formatException2.setTitle("Falsche Eingabe");
-                         formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
-
-                         formatException2.showAndWait();
-                     }
-						
-						selected.setVorname(vornameGet.getText());
-						selected.setName(nachnameGet.getText());
-						selected.setStraße(straßeGet.getText());
-						selected.setHausnummer(Integer.parseInt(hausnummerGet.getText()));
-						selected.setPostleitzahl(Integer.parseInt(postleitzahlGet.getText()));
-						selected.setStadt(stadtGet.getText());
-						selected.setLand(landGet.getText());
-						selected.setTelefon(telefonGet.getText());
-						
-					
-						MainGUI.kundentable.refresh();
-						
-					}
-			});
-	
-			
 		}});
+		
+		//Handler
+		
+		speichern.setOnAction(new EventHandler<ActionEvent>(){
+				public void handle(ActionEvent event){
+					
+					try{
+                     Integer.parseInt(postleitzahlGet.getText());
+                     Integer.parseInt(hausnummerGet.getText());
+                 
+              }
+              catch (NumberFormatException f){
+                 
+                  System.out.println("Fehler");
+                 
+                  Alert formatException2 = new Alert(AlertType.WARNING);
+                  formatException2.setTitle("Falsche Eingabe");
+                  formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
+
+                  formatException2.showAndWait();
+              }
+					
+					selected.setVorname(vornameGet.getText());
+					selected.setName(nachnameGet.getText());
+					selected.setStraße(straßeGet.getText());
+					selected.setHausnummer(Integer.parseInt(hausnummerGet.getText()));
+					selected.setPostleitzahl(Integer.parseInt(postleitzahlGet.getText()));
+					selected.setStadt(stadtGet.getText());
+					selected.setLand(landGet.getText());
+					selected.setTelefon(telefonGet.getText());
+					
+					
+					vornameGet.setEditable(false);
+					vornameGet.setMouseTransparent(true);
+					vornameGet.setFocusTraversable(false);
+					vornameGet.setStyle("-fx-background-color: whitesmoke");
+					
+					
+					nachnameGet.setEditable(false);
+					nachnameGet.setMouseTransparent(true);
+					nachnameGet.setFocusTraversable(false);
+					nachnameGet.setStyle("-fx-background-color: whitesmoke");
+					
+					straßeGet.setEditable(false);
+					straßeGet.setMouseTransparent(true);
+					straßeGet.setFocusTraversable(false);
+					straßeGet.setStyle("-fx-background-color: whitesmoke");
+					
+					hausnummerGet.setEditable(false);
+					hausnummerGet.setMouseTransparent(true);
+					hausnummerGet.setFocusTraversable(false);
+					hausnummerGet.setStyle("-fx-background-color: whitesmoke");
+					
+					postleitzahlGet.setEditable(false);
+					postleitzahlGet.setMouseTransparent(true);
+					postleitzahlGet.setFocusTraversable(false);
+					postleitzahlGet.setStyle("-fx-background-color: whitesmoke");
+					
+					stadtGet.setEditable(false);
+					stadtGet.setMouseTransparent(true);
+					stadtGet.setFocusTraversable(false);
+					stadtGet.setStyle("-fx-background-color: whitesmoke");
+					
+					landGet.setEditable(false);
+					landGet.setMouseTransparent(true);
+					landGet.setFocusTraversable(false);
+					landGet.setStyle("-fx-background-color: whitesmoke");
+					
+					telefonGet.setEditable(false);
+					telefonGet.setMouseTransparent(true);
+					telefonGet.setFocusTraversable(false);
+					telefonGet.setStyle("-fx-background-color: whitesmoke");
+					
+
+					vb3.getChildren().add(bearbeiten);
+					vb3.getChildren().remove(speichern);
+					
+					bearbeiten.setTranslateY(-120);
+					bearbeiten.setTranslateX(185);
+					
+				    //MainGUI.kundentable.refresh();
+					
+				}
+		});
+		
+		
+		
+		
+		// handler
+		
+		löschen.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+			
+    
+				Alert kundeLöschen = new Alert(AlertType.INFORMATION);
+				kundeLöschen.setTitle("Kunde löschen");
+				kundeLöschen.setContentText("Wollen Sie den Kunden wirklich löschen?");
+
+
+                ButtonType yesButton = new ButtonType("Ja");
+                ButtonType noButton = new ButtonType("Nein", ButtonData.CANCEL_CLOSE);
+
+                kundeLöschen.getButtonTypes().setAll(yesButton, noButton);
+                
+                
+                Optional<ButtonType> result = kundeLöschen.showAndWait();
+                if (result.get() == yesButton){
+                    
+                	Kundenliste.listeDerKunden.remove(selected);
+    				infoStage.hide();
+    					
+               	 
+                } else {
+                	kundeLöschen.hide();
+                    
+                } 
+
+		       
+			}
+				
+	});
 		
 		
 		

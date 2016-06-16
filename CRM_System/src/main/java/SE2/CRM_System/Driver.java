@@ -28,7 +28,7 @@ public class Driver {
 	}
 	
 	
-	public void add_wirklichjetzt (){
+	public void add (){
 		
 		HTMLEditor Notiz = new HTMLEditor();
 		Notiz.setPrefHeight(245);
@@ -43,9 +43,9 @@ public class Driver {
 
          Notiz.setHtmlText(INITIAL_TEXT);
 		
-		IKunde a = FactoryKunde.add("Kunde", "Hans", "Peter", "Musterstraße",
+		FactoryKunde.add("Kunde", "Hans", "Peter", "Musterstraße",
 				1, 72121, "Musterstadt", "Musterland", "0711/12334567", 001,Notiz);
 		
-		IKunde b = FactoryKunde.add("Kunde", "Gans", "Gustav", "Nelkenweg", 2, 70707, "Entenhausen", "Entenland", "0715468945", 002,Notiz);
+		FactoryKunde.add("Kunde", "Gans", "Gustav", "Nelkenweg", 2, 70707, "Entenhausen", "Entenland", "0715468945", 002,Notiz);
 	}
 }

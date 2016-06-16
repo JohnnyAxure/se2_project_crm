@@ -1,8 +1,11 @@
 package SE2.CRM_System;
 
+import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,18 +30,31 @@ import javafx.stage.WindowEvent;
 
 public abstract class MainGUI extends Application{
 
-	public final static TableView kundentable = new TableView();
+	public final static TableView<Kunde> kundentable = new TableView<Kunde>();
 	
 	
-	public static void startMainGui(final Stage secondaryStage) {
+	@SuppressWarnings("unchecked")
+	public static void startMainGui(final Stage mainStage) {
+		
+		 Thread threadRefresh = new Thread(() -> {
+		        while (true) {
+		            try {
+						Thread.sleep(3000);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
+		           kundentable.refresh();
+		        }
+		    }); 
+		 threadRefresh.start();
 	
 		
 		VBox vb2 = new VBox();
 		vb2.setPadding(new Insets(10, 50, 50, 50));
 		vb2.setSpacing(5);
+		//vb2.getStyleClass().add("vbox");
 
-
-		TextField suchfeld = new TextField();
+	    TextField suchfeld = new TextField();
 		vb2.getChildren().add(suchfeld);
 
 		Button search = new Button();
@@ -50,14 +66,14 @@ public abstract class MainGUI extends Application{
 		vb2.getChildren().add(add);
 		
 		final Driver newdriver = new Driver();
-		newdriver.add_wirklichjetzt();
+		newdriver.add();
 
-
+		kundentable.setPlaceholder(new Label("keine Kunden gefunden"));
 
 		kundentable.setEditable(true);
-		final TableColumn firstNameCol = new TableColumn("Vorname");
-		TableColumn lastNameCol = new TableColumn("Nachname");
-		TableColumn kundennummerCol = new TableColumn("Kundennummer");
+		final TableColumn<Kunde, String> firstNameCol = new TableColumn<Kunde, String>("Vorname");
+		TableColumn<Kunde, String> lastNameCol = new TableColumn<Kunde, String>("Nachname");
+		TableColumn<Kunde, Integer> kundennummerCol = new TableColumn<Kunde, Integer>("Kundennummer");
 		
 
 		kundentable.getColumns().addAll(firstNameCol, lastNameCol,kundennummerCol);
@@ -70,40 +86,84 @@ public abstract class MainGUI extends Application{
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Name"));
 		
 		kundennummerCol.setMinWidth(100);
-		kundennummerCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Kundennummer"));
+		kundennummerCol.setCellValueFactory(new PropertyValueFactory<Kunde, Integer>("Kundennummer"));
 		kundentable.setItems(Kundenliste.listeDerKunden);
 		vb2.getChildren().add(kundentable);
 
 		Scene scene2 = new Scene(vb2, 400, 800);
-		secondaryStage.setScene(scene2);
-		secondaryStage.show();
+		mainStage.setScene(scene2);
+		scene2.getStylesheets().add("myStylesheet.css");
+		mainStage.show();
 		
 		
 		// Handler Kontakt
-	
+		
 
 		kundentable.addEventFilter(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent event) {
 						if (event.getClickCount() > 1) {
 							
 							 final Kunde selected = (Kunde)kundentable.getSelectionModel().getSelectedItem();
-							 final Stage thirdStage = new Stage();
-							InfoGUI.startInfoGUI(thirdStage, selected);
+							 
+							 final Stage infoStage = new Stage();
+							InfoGUI.startInfoGUI(infoStage,mainStage, selected);
 						}
 				}});
 		
 		
-		// Handler Kontakt hinzufügen 
+		// Handler
+		search.setOnAction(new EventHandler<ActionEvent>(){
+		
+			public void handle(ActionEvent event){
+				
+				String suche = suchfeld.getText();
+				
+				// Thread 
+				
+				 Thread thread = new Thread(){
+
+				     public void run(){
+                      
+				 		if (!suche.isEmpty()){
+				 			
+				 			// Stream
+				 			
+					 		List<Kunde> filteredList =   Kundenliste.listeDerKunden.stream()
+					 				                                               .filter(i -> suche.toLowerCase().equals(i.Name.toLowerCase())
+					 				                                                            || suche.toLowerCase().equals(i.Vorname.toLowerCase())
+					 				                                                    		|| suche.equals(String.valueOf(i.Kundennummer))) 
+					 				                                               .collect(Collectors.toList());
+					 				                                                       
+					 		ObservableList<Kunde> observableFilteredList = FXCollections.observableList(filteredList);
+					 		
+					 		kundentable.setItems(observableFilteredList);
+				 			
+				 		}
+				 		else{
+				 			kundentable.setItems(Kundenliste.listeDerKunden);
+				 			}
+				 	
+				     }
+				   };
+
+				 
+				   thread.start();
+				   suchfeld.clear();
+			}
+				
+	});
+		
+		// Handler 
 		
 		add.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){	
 				
-				final Stage thirdStage = new Stage();
-				thirdStage.setTitle("Kontakt hinzufügen");
+				final Stage addStage = new Stage();
+				addStage.setTitle("Kontakt hinzufügen");
 
 				// specify stage locations.
-				thirdStage.setX(900);
-				thirdStage.setY(400);
+				addStage.setX(900);
+				addStage.setY(400);
 
 				// add a trigger to hide the secondary
 				// stage when the primary stage is
@@ -111,18 +171,19 @@ public abstract class MainGUI extends Application{
 				// this will cause all stages to be
 				// hidden (which will cause the app to
 				// terminate).
-				secondaryStage.setOnHidden(new EventHandler<WindowEvent>() {
+				mainStage.setOnHidden(new EventHandler<WindowEvent>() {
 
 							public void handle(
 									WindowEvent onClosing) {
-								thirdStage.hide();
-							}
+								addStage.hide();
+														}
 						});
 
 				VBox vb4 = new VBox();
 				vb4.setPadding(new Insets(10, 50, 50,
 						50));
 				vb4.setSpacing(5);
+			
 
 				Label vorname = new Label();
 				vorname.setText("Vorname:");
@@ -263,11 +324,11 @@ public abstract class MainGUI extends Application{
 
 
 				Scene scene3 = new Scene(vb4, 600, 600);
-				thirdStage.setScene(scene3);
+				addStage.setScene(scene3);
 
-				thirdStage.show();
+				addStage.show();
 				
-				// Handler speichern
+				// Handler 
 				
 				speichern.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent event){
@@ -280,6 +341,7 @@ public abstract class MainGUI extends Application{
                      }
                      catch (NumberFormatException f){
                         
+                    	 
                          System.out.println("Fehler");
                         
                          Alert formatException2 = new Alert(AlertType.WARNING);
@@ -290,88 +352,91 @@ public abstract class MainGUI extends Application{
                      }
 						
 						HTMLEditor Notiz= new HTMLEditor();
-						Boolean first =true;
+					
+                       //stream
 						
-						for(int i=0; i < Kundenliste.listeDerKunden.size(); i++){
-							if ( Kundenliste.listeDerKunden.get(i).Vorname.toLowerCase().equals(vornameSet.getText().toLowerCase()) &&
-							     Kundenliste.listeDerKunden.get(i).Name.toLowerCase().equals(nachnameSet.getText().toLowerCase())	&&
-							     Kundenliste.listeDerKunden.get(i).Hausnummer ==Integer.parseInt(hausnummerSet.getText()) &&
-							     Kundenliste.listeDerKunden.get(i).Land.toLowerCase().equals(landSet.getText().toLowerCase()) &&
-							     Kundenliste.listeDerKunden.get(i).Postleitzahl== Integer.parseInt(postleitzahlSet.getText()) &&
-							     Kundenliste.listeDerKunden.get(i).Stadt.toLowerCase().equals(stadtSet.getText().toLowerCase()) &&
-							     Kundenliste.listeDerKunden.get(i).Straße.toLowerCase().equals(straßeSet.getText().toLowerCase()) &&
-							     Kundenliste.listeDerKunden.get(i).Telefon.toLowerCase().equals(telefonSet.getText().toLowerCase()))
-							
-		                          
-								first= false;
-							}
+						                        	  if((Kundenliste.listeDerKunden.stream().filter(i -> 
+						                        	     i.Vorname.toLowerCase().equals(vornameSet.getText().toLowerCase())&&
+						                        	     i.Name.toLowerCase().equals(nachnameSet.getText().toLowerCase())	&&
+						              					 i.Hausnummer ==Integer.parseInt(hausnummerSet.getText()) &&
+						              				     i.Land.toLowerCase().equals(landSet.getText().toLowerCase()) &&
+						              				   	 i.Postleitzahl== Integer.parseInt(postleitzahlSet.getText()) &&
+						              				     i.Stadt.toLowerCase().equals(stadtSet.getText().toLowerCase()) &&
+						              					 i.Straße.toLowerCase().equals(straßeSet.getText().toLowerCase()) &&
+						              					 i.Telefon.toLowerCase().equals(telefonSet.getText().toLowerCase()))).count() != 0)
+						                        	  {
+
+						                                  Alert doppelterKunde = new Alert(AlertType.INFORMATION);
+						                                  doppelterKunde.setTitle("Kunde existiert bereits");
+						                                  doppelterKunde.setContentText("Kunde existiert bereits. Wollen Sie ihn trotzdem nochmal anlegen?");
+
+
+						                                  ButtonType yesButton = new ButtonType("Ja");
+						                                  ButtonType noButton = new ButtonType("Nein", ButtonData.CANCEL_CLOSE);
+
+						                                  doppelterKunde.getButtonTypes().setAll(yesButton, noButton);
+
+						                                  Optional<ButtonType> result = doppelterKunde.showAndWait();
+						                                  if (result.get() == yesButton){
+						                                      
+
+						              						            newdriver.add(
+						              									"Kunde",
+						              									nachnameSet.getText(),
+						              									vornameSet.getText(),
+						              									straßeSet.getText(),
+						              									Integer.parseInt(hausnummerSet.getText()),
+						              									Integer.parseInt(postleitzahlSet.getText()),
+						              									stadtSet.getText(),
+						              									landSet.getText(),
+						              									telefonSet.getText(),
+						              									Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
+						              									Notiz
+						              								
+						              							    );
+						     										
+						     									    
+						                                 	 addStage.hide();
+						                                 	 
+						                                  } else{
+						                                 	 doppelterKunde.hide();
+						                                     
+						                                  }
+						                        	  }
+						                        	  
+						                        	  else {
+
+						          						newdriver.add(
+						          									"Kunde",
+						          									nachnameSet.getText(),
+						          									vornameSet.getText(),
+						          									straßeSet.getText(),
+						          									Integer.parseInt(hausnummerSet.getText()),
+						          									Integer.parseInt(postleitzahlSet.getText()),
+						          									stadtSet.getText(),
+						          									landSet.getText(),
+						          									telefonSet.getText(),
+						          									Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
+						          									Notiz
+						          								
+						          							    );
+						          							
+						          						   
+
+						          						addStage.hide();
+						                        	  }
+					                              }
+						                          });
 						
-						
-						if(first){
-						newdriver.add(
-								"Kunde",
-								nachnameSet.getText(),
-								vornameSet.getText(),
-								straßeSet.getText(),
-								Integer.parseInt(hausnummerSet.getText()),
-								Integer.parseInt(postleitzahlSet.getText()),
-								stadtSet.getText(),
-								landSet.getText(),
-								telefonSet.getText(),
-								Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
-								Notiz
-							
-						    );
-
-						thirdStage.hide();
-						}
-						else{
-                            
-                             Alert doppelterKunde = new Alert(AlertType.INFORMATION);
-                             doppelterKunde.setTitle("Kunde existiert bereits");
-                             doppelterKunde.setContentText("Kunde existiert bereits. Wollen Sie ihn trotzdem nochmal anlegen?");
-
-
-                             ButtonType yesButton = new ButtonType("Ja");
-                             ButtonType noButton = new ButtonType("Nein", ButtonData.CANCEL_CLOSE);
-
-                             doppelterKunde.getButtonTypes().setAll(yesButton, noButton);
-
-                             Optional<ButtonType> result = doppelterKunde.showAndWait();
-                             if (result.get() == yesButton){
-                                 
-                            	 newdriver.add(
-											"Kunde",
-											nachnameSet.getText(),
-											vornameSet.getText(),
-											straßeSet.getText(),
-											Integer.parseInt(hausnummerSet.getText()),
-											Integer.parseInt(postleitzahlSet.getText()),
-											stadtSet.getText(),
-											landSet.getText(),
-											telefonSet.getText(),
-											Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
-											Notiz
-										
-									    );
-                            	 thirdStage.hide();
-                            	 
-                             } else if (result.get() == noButton) {
-                            	 doppelterKunde.hide();
-                                 
-                             } else {
-                            	 doppelterKunde.hide();
-                                
-                             }
-						}
+			
 						
 						
 					
 				}});
 				
 	
-			}});
+			};
 	}
 	
 	
-}
+
