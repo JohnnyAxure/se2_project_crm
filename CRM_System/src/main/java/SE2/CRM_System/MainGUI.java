@@ -29,7 +29,7 @@ public abstract class MainGUI extends Application{
 
 	public final static TableView kundentable = new TableView();
 	
-	
+	//
 	public static void startMainGui(final Stage secondaryStage) {
 	
 		
