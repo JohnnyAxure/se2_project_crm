@@ -1,9 +1,11 @@
-package SE2.CRM_System;
+package mainFunctionality;
 
 
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import persons.IKunde;
+import persons.Kunde;
 
 public class Kundenliste {
 

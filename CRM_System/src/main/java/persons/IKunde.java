@@ -1,6 +1,4 @@
-package SE2.CRM_System;
-
-import javafx.beans.property.SimpleStringProperty;
+package persons;
 
 public interface IKunde {
 
