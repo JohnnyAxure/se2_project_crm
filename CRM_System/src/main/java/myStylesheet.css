@@ -1,0 +1,56 @@
+
+.label {
+    -fx-font-size: 13pt;
+    -fx-font-family: "Verdana";
+    -fx-text-fill: black;
+    -fx-opacity: 0.7;
+}
+
+
+.label #suche  {
+	 -fx-font-size: 15pt;
+    -fx-font-family: "Verdana";
+    -fx-text-fill: black;
+    -fx-opacity: 0.7;
+}
+.label2 {
+	 -fx-font-size: 15pt;
+    -fx-font-family: "Verdana";
+    -fx-text-fill: black;
+    -fx-opacity: 0.7;
+}
+.label3 {
+	 -fx-font-size: 17pt;
+    -fx-font-family: "Verdana";
+    -fx-text-fill: black;
+    -fx-opacity: 0.7;
+}
+.stage {
+	 -fx-background-color: #6AFB92;
+}
+
+
+.vbox{
+      -fx-background-color: #FEFCFF;
+     
+     
+    }
+    
+.button {
+    -fx-text-fill: black;
+    -fx-font-family: "Verdana";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#C3FDB8, #66CDAA);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#textfield {
+	-fx-focus-color: #6AFB92;
+}
+
+#textfield2{
+	-fx-background-color: #FEFCFF;
+	-fx-border: 0;
+}
+
+

@@ -1,12 +1,7 @@
 package gui;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -37,6 +32,7 @@ public abstract class MainGUI extends Application{
 	public final static TableView<Kunde> kundentable = new TableView<Kunde>();
 	
 	
+
 	@SuppressWarnings("unchecked")
 	public static void startMainGui(final Stage mainStage) {
 		
@@ -56,18 +52,33 @@ public abstract class MainGUI extends Application{
 		VBox vb2 = new VBox();
 		vb2.setPadding(new Insets(10, 50, 50, 50));
 		vb2.setSpacing(5);
-		//vb2.getStyleClass().add("vbox");
+		vb2.getStyleClass().add("vbox");
+	    
+		
+		Label suchlabel = new Label();
+		suchlabel.setText("| Suche");
+		suchlabel.getStyleClass().add("label2");
+		vb2.getChildren().add(suchlabel);
 
 	    TextField suchfeld = new TextField();
+	    suchfeld.setId("textfield");
 		vb2.getChildren().add(suchfeld);
-
-		Button search = new Button();
-		search.setText("Suchen");
-		vb2.getChildren().add(search);
+		
+		Label space = new Label();
+		vb2.getChildren().add(space);
 
 		Button add = new Button();
-		add.setText("+");
+		add.setText("+ neuer Kunde ");
 		vb2.getChildren().add(add);
+		
+		Label space2 = new Label();
+		vb2.getChildren().add(space2);
+		
+		Label tabelle = new Label();
+		tabelle.setText("| Kundenliste");
+		tabelle.getStyleClass().add("label2");
+		vb2.getChildren().add(tabelle);
+		
 		
 		final Driver newdriver = new Driver();
 		newdriver.add();
@@ -77,24 +88,25 @@ public abstract class MainGUI extends Application{
 		kundentable.setEditable(true);
 		final TableColumn<Kunde, String> firstNameCol = new TableColumn<Kunde, String>("Vorname");
 		TableColumn<Kunde, String> lastNameCol = new TableColumn<Kunde, String>("Nachname");
-		TableColumn<Kunde, Integer> kundennummerCol = new TableColumn<Kunde, Integer>("Kundennummer");
+		TableColumn<Kunde, Integer> kundennummerCol = new TableColumn<Kunde, Integer>("Kundennr.");
 		
 
 		kundentable.getColumns().addAll(firstNameCol, lastNameCol,kundennummerCol);
 
-		firstNameCol.setMinWidth(100);
+		firstNameCol.setMinWidth(120);
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Vorname"));
 		
 
-		lastNameCol.setMinWidth(100);
+		lastNameCol.setMinWidth(120);
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Name"));
 		
-		kundennummerCol.setMinWidth(100);
+		kundennummerCol.setMinWidth(120);
 		kundennummerCol.setCellValueFactory(new PropertyValueFactory<Kunde, Integer>("Kundennummer"));
+		
 		kundentable.setItems(Kundenliste.listeDerKunden);
 		vb2.getChildren().add(kundentable);
 
-		Scene scene2 = new Scene(vb2, 400, 800);
+		Scene scene2 = new Scene(vb2, 460, 800);
 		mainStage.setScene(scene2);
 		scene2.getStylesheets().add("myStylesheet.css");
 		mainStage.show();
@@ -115,48 +127,12 @@ public abstract class MainGUI extends Application{
 				}});
 		
 		
-		// Handler
-		search.setOnAction(new EventHandler<ActionEvent>(){
+		//Suchfeld
 		
-			public void handle(ActionEvent event){
-				
-				String suche = suchfeld.getText();
-				
-				// Thread 
-				
-				 Thread thread = new Thread(){
-
-				     public void run(){
-                      
-				 		if (!suche.isEmpty()){
-				 			
-				 			// Stream
-				 			
-					 		List<Kunde> filteredList =   Kundenliste.listeDerKunden.stream()
-					 				                                               .filter(i -> suche.toLowerCase().equals(i.Name.toLowerCase())
-					 				                                                            || suche.toLowerCase().equals(i.Vorname.toLowerCase())
-					 				                                                    		|| suche.equals(String.valueOf(i.Kundennummer))) 
-					 				                                               .collect(Collectors.toList());
-					 				                                                       
-					 		ObservableList<Kunde> observableFilteredList = FXCollections.observableList(filteredList);
-					 		
-					 		kundentable.setItems(observableFilteredList);
-				 			
-				 		}
-				 		else{
-				 			kundentable.setItems(Kundenliste.listeDerKunden);
-				 			}
-				 	
-				     }
-				   };
-
-				 
-				   thread.start();
-				   suchfeld.clear();
-			}
-				
-	});
+		Kundenliste.search(suchfeld, kundentable);
 		
+
+
 		// Handler 
 		
 		add.setOnAction(new EventHandler<ActionEvent>(){
@@ -187,8 +163,15 @@ public abstract class MainGUI extends Application{
 				vb4.setPadding(new Insets(10, 50, 50,
 						50));
 				vb4.setSpacing(5);
+				vb4.getStyleClass().add("vbox");
 			
-
+          
+				Label neuerKunde = new Label();
+				neuerKunde.setText("| Kunde anlegen");
+				neuerKunde.getStyleClass().add("label3");
+				vb4.getChildren().add(neuerKunde);
+				
+				
 				Label vorname = new Label();
 				vorname.setText("Vorname:");
 				vorname.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -202,6 +185,7 @@ public abstract class MainGUI extends Application{
 				vornameSet.setMinWidth(50);
 				vornameSet.setPrefWidth(50);
 				vornameSet.setMaxWidth(150);
+				vornameSet.setId("textfield");
 				vb4.getChildren().add(vornameSet);
 				
 				Label nachname = new Label();
@@ -216,6 +200,7 @@ public abstract class MainGUI extends Application{
 				nachnameSet.setMinWidth(50);
 				nachnameSet.setPrefWidth(50);
 				nachnameSet.setMaxWidth(150);
+				nachnameSet.setId("textfield");
 				vb4.getChildren().add(nachnameSet);
 				
 				Label straße = new Label();
@@ -224,13 +209,14 @@ public abstract class MainGUI extends Application{
 				straße.setTranslateY(0);
 				vb4.getChildren().add(straße);
 				
-				final TextField straßeSet = new TextField();
-				straßeSet.setTranslateY(-30);
-				straßeSet.setTranslateX(150);
-				straßeSet.setMinWidth(50);
-				straßeSet.setPrefWidth(50);
-				straßeSet.setMaxWidth(150);
-				vb4.getChildren().add(straßeSet);
+				final TextField straÃŸeSet = new TextField();
+				straÃŸeSet.setTranslateY(-30);
+				straÃŸeSet.setTranslateX(150);
+				straÃŸeSet.setMinWidth(50);
+				straÃŸeSet.setPrefWidth(50);
+				straÃŸeSet.setMaxWidth(150);
+				straÃŸeSet.setId("textfield");
+				vb4.getChildren().add(straÃŸeSet);
 				
 				Label hausnummer = new Label();
 				hausnummer.setText("Hausnummer:");
@@ -244,6 +230,7 @@ public abstract class MainGUI extends Application{
 				hausnummerSet.setMinWidth(50);
 				hausnummerSet.setPrefWidth(50);
 				hausnummerSet.setMaxWidth(150);
+				hausnummerSet.setId("textfield");
 				vb4.getChildren().add(hausnummerSet);
 				
 				Label postleitzahl = new Label();
@@ -258,6 +245,7 @@ public abstract class MainGUI extends Application{
 				postleitzahlSet.setMinWidth(50);
 				postleitzahlSet.setPrefWidth(50);
 				postleitzahlSet.setMaxWidth(150);
+				postleitzahlSet.setId("textfield");
 				vb4.getChildren().add(postleitzahlSet);
 				
 				Label stadt = new Label();
@@ -272,6 +260,7 @@ public abstract class MainGUI extends Application{
 				stadtSet.setMinWidth(50);
 				stadtSet.setPrefWidth(50);
 				stadtSet.setMaxWidth(150);
+				stadtSet.setId("textfield");
 				vb4.getChildren().add(stadtSet);
 				
 				Label land = new Label();
@@ -286,6 +275,7 @@ public abstract class MainGUI extends Application{
 				landSet.setMinWidth(50);
 				landSet.setPrefWidth(50);
 				landSet.setMaxWidth(150);
+				landSet.setId("textfield");
 				vb4.getChildren().add(landSet);
 				
 				Label telefon = new Label();
@@ -300,6 +290,7 @@ public abstract class MainGUI extends Application{
 				telefonSet.setMinWidth(50);
 				telefonSet.setPrefWidth(50);
 				telefonSet.setMaxWidth(150);
+				telefonSet.setId("textfield");
 				vb4.getChildren().add(telefonSet);
 				
 				Label kundennummer = new Label();
@@ -318,16 +309,18 @@ public abstract class MainGUI extends Application{
 				kundennummerSet.setMinWidth(50);
 				kundennummerSet.setPrefWidth(50);
 				kundennummerSet.setMaxWidth(150);
-				kundennummerSet.setStyle("-fx-background-color: whitesmoke");
+				kundennummerSet.setStyle("-fx-background-color: #FEFCFF");
 				vb4.getChildren().add(kundennummerSet);
 				
 				
 				Button speichern = new Button();
 				speichern.setText("Speichern");
+				speichern.setTranslateY(-75);
 				vb4.getChildren().add(speichern);
 
 
 				Scene scene3 = new Scene(vb4, 600, 600);
+				scene3.getStylesheets().add("myStylesheet.css");
 				addStage.setScene(scene3);
 
 				addStage.show();
@@ -350,7 +343,7 @@ public abstract class MainGUI extends Application{
                         
                          Alert formatException2 = new Alert(AlertType.WARNING);
                          formatException2.setTitle("Falsche Eingabe");
-                         formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
+                         formatException2.setContentText("Bitte eine gÃ¼ltige Zahl eingeben!");
 
                          formatException2.showAndWait();
                      }
@@ -366,7 +359,7 @@ public abstract class MainGUI extends Application{
 						              				     i.Land.toLowerCase().equals(landSet.getText().toLowerCase()) &&
 						              				   	 i.Postleitzahl== Integer.parseInt(postleitzahlSet.getText()) &&
 						              				     i.Stadt.toLowerCase().equals(stadtSet.getText().toLowerCase()) &&
-						              					 i.Straße.toLowerCase().equals(straßeSet.getText().toLowerCase()) &&
+						              					 i.Straße.toLowerCase().equals(straÃŸeSet.getText().toLowerCase()) &&
 						              					 i.Telefon.toLowerCase().equals(telefonSet.getText().toLowerCase()))).count() != 0)
 						                        	  {
 
@@ -388,7 +381,7 @@ public abstract class MainGUI extends Application{
 						              									"Kunde",
 						              									nachnameSet.getText(),
 						              									vornameSet.getText(),
-						              									straßeSet.getText(),
+						              									straÃŸeSet.getText(),
 						              									Integer.parseInt(hausnummerSet.getText()),
 						              									Integer.parseInt(postleitzahlSet.getText()),
 						              									stadtSet.getText(),
@@ -399,7 +392,7 @@ public abstract class MainGUI extends Application{
 						              								
 						              							    );
 						     										
-						     									    
+						              						 landSet.getStyle();	    
 						                                 	 addStage.hide();
 						                                 	 
 						                                  } else{
@@ -414,7 +407,7 @@ public abstract class MainGUI extends Application{
 						          									"Kunde",
 						          									nachnameSet.getText(),
 						          									vornameSet.getText(),
-						          									straßeSet.getText(),
+						          									straÃŸeSet.getText(),
 						          									Integer.parseInt(hausnummerSet.getText()),
 						          									Integer.parseInt(postleitzahlSet.getText()),
 						          									stadtSet.getText(),
@@ -433,9 +426,6 @@ public abstract class MainGUI extends Application{
 						                          });
 						
 			
-						
-						
-					
 				}});
 				
 	

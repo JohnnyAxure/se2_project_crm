@@ -64,8 +64,12 @@ public abstract class InfoGUI extends Application {
 		vb3.setPadding(new Insets(10, 50, 50,
 				50));
 		vb3.setSpacing(5);
+		vb3.getStyleClass().add("vbox");
         
-		
+		Label kundeninfo = new Label();
+		kundeninfo.setText("| Kundeninformationen");
+		kundeninfo.getStyleClass().add("label3");
+		vb3.getChildren().add(kundeninfo);
 
 		Label vorname = new Label();
 		vorname.setText("Vorname:");
@@ -75,7 +79,6 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(vorname);
 		
 		final TextField vornameGet = new TextField();
-		final String style = vornameGet.getStyle();
 		vornameGet.setText(selected.Vorname);
 		vornameGet.setTranslateY(-10);
 		vornameGet.setTranslateX(150);
@@ -85,7 +88,7 @@ public abstract class InfoGUI extends Application {
 		vornameGet.setMinWidth(50);
 		vornameGet.setPrefWidth(50);
 		vornameGet.setMaxWidth(150);
-		vornameGet.setStyle("-fx-background-color: whitesmoke");
+		vornameGet.setId("textfield2"); 
 		vb3.getChildren().add(vornameGet);
 		
 		Label nachname = new Label();
@@ -104,7 +107,7 @@ public abstract class InfoGUI extends Application {
 		nachnameGet.setMinWidth(50);
 		nachnameGet.setPrefWidth(50);
 		nachnameGet.setMaxWidth(150);
-		nachnameGet.setStyle("-fx-background-color: whitesmoke");
+		nachnameGet.setId("textfield2"); 
 		vb3.getChildren().add(nachnameGet);
 		
 		Label straße = new Label();
@@ -123,7 +126,7 @@ public abstract class InfoGUI extends Application {
 		straßeGet.setMinWidth(50);
 		straßeGet.setPrefWidth(50);
 		straßeGet.setMaxWidth(150);
-		straßeGet.setStyle("-fx-background-color: whitesmoke");
+		straßeGet.setId("textfield2");
 		vb3.getChildren().add(straßeGet);
 		
 		Label hausnummer = new Label();
@@ -142,7 +145,7 @@ public abstract class InfoGUI extends Application {
 		hausnummerGet.setMinWidth(50);
 		hausnummerGet.setPrefWidth(50);
 		hausnummerGet.setMaxWidth(150);
-		hausnummerGet.setStyle("-fx-background-color: whitesmoke");
+		hausnummerGet.setId("textfield2");
 		vb3.getChildren().add(hausnummerGet);
 		
 		Label postleitzahl = new Label();
@@ -161,7 +164,7 @@ public abstract class InfoGUI extends Application {
 		postleitzahlGet.setMinWidth(50);
 		postleitzahlGet.setPrefWidth(50);
 		postleitzahlGet.setMaxWidth(150);
-		postleitzahlGet.setStyle("-fx-background-color: whitesmoke");
+		postleitzahlGet.setId("textfield2");
 		vb3.getChildren().add(postleitzahlGet);
 		
 		Label stadt = new Label();
@@ -180,7 +183,7 @@ public abstract class InfoGUI extends Application {
 		stadtGet.setMinWidth(50);
 		stadtGet.setPrefWidth(50);
 		stadtGet.setMaxWidth(150);
-		stadtGet.setStyle("-fx-background-color: whitesmoke");
+		stadtGet.setId("textfield2");
 		vb3.getChildren().add(stadtGet);
 		
 		Label land = new Label();
@@ -199,7 +202,7 @@ public abstract class InfoGUI extends Application {
 		landGet.setMinWidth(50);
 		landGet.setPrefWidth(50);
 		landGet.setMaxWidth(150);
-		landGet.setStyle("-fx-background-color: whitesmoke");
+		landGet.setId("textfield2");
 		vb3.getChildren().add(landGet);
 		
 		Label telefon = new Label();
@@ -218,7 +221,7 @@ public abstract class InfoGUI extends Application {
 		telefonGet.setMinWidth(50);
 		telefonGet.setPrefWidth(50);
 		telefonGet.setMaxWidth(150);
-		telefonGet.setStyle("-fx-background-color: whitesmoke");
+		telefonGet.setId("textfield2");
 		vb3.getChildren().add(telefonGet);
 		
 		Label kundennummer = new Label();
@@ -237,7 +240,7 @@ public abstract class InfoGUI extends Application {
 		kundennummerGet.setMinWidth(50);
 		kundennummerGet.setPrefWidth(50);
 		kundennummerGet.setMaxWidth(150);
-		kundennummerGet.setStyle("-fx-background-color: whitesmoke");
+		kundennummerGet.setId("textfield2");
 		vb3.getChildren().add(kundennummerGet);
 		
 		
@@ -256,14 +259,17 @@ public abstract class InfoGUI extends Application {
 	    speichern.setTranslateY(-105);
 	    speichern.setTranslateX(190);
 	    speichern.setText("Speichern");
-	  
+	 
+	   
 		Button löschen = new Button();
 		löschen.setTranslateY(-120);
 		löschen.setTranslateX(350);
 		löschen.setText("Kunde löschen");
 		vb3.getChildren().add(löschen);
 
-		Scene scene3 = new Scene(vb3, 600, 600);
+		Scene scene3 = new Scene(vb3, 600, 650);
+		scene3.getStylesheets().add("myStylesheet.css");
+
 		infoStage.setScene(scene3);
 
 		infoStage.show();
@@ -315,43 +321,42 @@ public abstract class InfoGUI extends Application {
 				vornameGet.setEditable(true);
 				vornameGet.setMouseTransparent(false);
 				vornameGet.setFocusTraversable(true);
-				vornameGet.setStyle(style);
-				
+				vornameGet.setId("textfield"); 
 				
 				nachnameGet.setEditable(true);
 				nachnameGet.setMouseTransparent(false);
 				nachnameGet.setFocusTraversable(true);
-				nachnameGet.setStyle(style);
+				nachnameGet.setId("textfield"); 
 				
 				straßeGet.setEditable(true);
 				straßeGet.setMouseTransparent(false);
 				straßeGet.setFocusTraversable(true);
-				straßeGet.setStyle(style);
+				straßeGet.setId("textfield"); 
 				
 				hausnummerGet.setEditable(true);
 				hausnummerGet.setMouseTransparent(false);
 				hausnummerGet.setFocusTraversable(true);
-				hausnummerGet.setStyle(style);
+				hausnummerGet.setId("textfield"); 
 				
 				postleitzahlGet.setEditable(true);
 				postleitzahlGet.setMouseTransparent(false);
 				postleitzahlGet.setFocusTraversable(true);
-				postleitzahlGet.setStyle(style);
+				postleitzahlGet.setId("textfield"); 	
 				
 				stadtGet.setEditable(true);
 				stadtGet.setMouseTransparent(false);
 				stadtGet.setFocusTraversable(true);
-				stadtGet.setStyle(style);
+				stadtGet.setId("textfield"); 
 				
 				landGet.setEditable(true);
 				landGet.setMouseTransparent(false);
 				landGet.setFocusTraversable(true);
-				landGet.setStyle(style);
+				landGet.setId("textfield"); 
 				
 				telefonGet.setEditable(true);
 				telefonGet.setMouseTransparent(false);
 				telefonGet.setFocusTraversable(true);
-				telefonGet.setStyle(style);
+				telefonGet.setId("textfield"); 
 				
 				vb3.getChildren().remove(bearbeiten);
 				vb3.getChildren().add(speichern);
@@ -381,7 +386,7 @@ public abstract class InfoGUI extends Application {
                   Alert formatException2 = new Alert(AlertType.WARNING);
                   formatException2.setTitle("Falsche Eingabe");
                   formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
-
+                  
                   formatException2.showAndWait();
               }
 					
@@ -398,43 +403,43 @@ public abstract class InfoGUI extends Application {
 					vornameGet.setEditable(false);
 					vornameGet.setMouseTransparent(true);
 					vornameGet.setFocusTraversable(false);
-					vornameGet.setStyle("-fx-background-color: whitesmoke");
+					vornameGet.setStyle("-fx-background-color: #FEFCFF");
 					
 					
 					nachnameGet.setEditable(false);
 					nachnameGet.setMouseTransparent(true);
 					nachnameGet.setFocusTraversable(false);
-					nachnameGet.setStyle("-fx-background-color: whitesmoke");
+					nachnameGet.setStyle("-fx-background-color: #FEFCFF");
 					
 					straßeGet.setEditable(false);
 					straßeGet.setMouseTransparent(true);
 					straßeGet.setFocusTraversable(false);
-					straßeGet.setStyle("-fx-background-color: whitesmoke");
+					straßeGet.setStyle("-fx-background-color: #FEFCFF");
 					
 					hausnummerGet.setEditable(false);
 					hausnummerGet.setMouseTransparent(true);
 					hausnummerGet.setFocusTraversable(false);
-					hausnummerGet.setStyle("-fx-background-color: whitesmoke");
+					hausnummerGet.setStyle("-fx-background-color: #FEFCFF");
 					
 					postleitzahlGet.setEditable(false);
 					postleitzahlGet.setMouseTransparent(true);
 					postleitzahlGet.setFocusTraversable(false);
-					postleitzahlGet.setStyle("-fx-background-color: whitesmoke");
+					postleitzahlGet.setStyle("-fx-background-color: FEFCFF");
 					
 					stadtGet.setEditable(false);
 					stadtGet.setMouseTransparent(true);
 					stadtGet.setFocusTraversable(false);
-					stadtGet.setStyle("-fx-background-color: whitesmoke");
+					stadtGet.setStyle("-fx-background-color: #FEFCFF");
 					
 					landGet.setEditable(false);
 					landGet.setMouseTransparent(true);
 					landGet.setFocusTraversable(false);
-					landGet.setStyle("-fx-background-color: whitesmoke");
+					landGet.setStyle("-fx-background-color: #FEFCFF");
 					
 					telefonGet.setEditable(false);
 					telefonGet.setMouseTransparent(true);
 					telefonGet.setFocusTraversable(false);
-					telefonGet.setStyle("-fx-background-color: whitesmoke");
+					telefonGet.setStyle("-fx-background-color: #FEFCFF");
 					
 
 					vb3.getChildren().add(bearbeiten);
@@ -490,3 +495,4 @@ public abstract class InfoGUI extends Application {
 	}
 
 }
+
