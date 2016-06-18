@@ -32,6 +32,7 @@
 
 .vbox{
       -fx-background-color: #FEFCFF;
+      -fx-focus-color: #6AFB92;
      
      
     }
@@ -52,5 +53,16 @@
 	-fx-background-color: #FEFCFF;
 	-fx-border: 0;
 }
+
+.table-row-cell:selected { 
+	-fx-background-color: linear-gradient(#C3FDB8, #66CDAA);
+	-fx-table-cell-border-color: #C0C0C0;  
+	-fx-dark-text-color: #000000;
+    -fx-mid-text-color: #000000;
+    -fx-light-text-color: #000000;
+
+    
+	 }
+	 
 
 

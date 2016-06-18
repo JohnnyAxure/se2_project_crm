@@ -209,14 +209,14 @@ public abstract class MainGUI extends Application{
 				straße.setTranslateY(0);
 				vb4.getChildren().add(straße);
 				
-				final TextField straÃŸeSet = new TextField();
-				straÃŸeSet.setTranslateY(-30);
-				straÃŸeSet.setTranslateX(150);
-				straÃŸeSet.setMinWidth(50);
-				straÃŸeSet.setPrefWidth(50);
-				straÃŸeSet.setMaxWidth(150);
-				straÃŸeSet.setId("textfield");
-				vb4.getChildren().add(straÃŸeSet);
+				final TextField straßeSet = new TextField();
+				straßeSet.setTranslateY(-30);
+				straßeSet.setTranslateX(150);
+				straßeSet.setMinWidth(50);
+				straßeSet.setPrefWidth(50);
+				straßeSet.setMaxWidth(150);
+				straßeSet.setId("textfield");
+				vb4.getChildren().add(straßeSet);
 				
 				Label hausnummer = new Label();
 				hausnummer.setText("Hausnummer:");
@@ -343,7 +343,7 @@ public abstract class MainGUI extends Application{
                         
                          Alert formatException2 = new Alert(AlertType.WARNING);
                          formatException2.setTitle("Falsche Eingabe");
-                         formatException2.setContentText("Bitte eine gÃ¼ltige Zahl eingeben!");
+                         formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
 
                          formatException2.showAndWait();
                      }
@@ -359,7 +359,7 @@ public abstract class MainGUI extends Application{
 						              				     i.Land.toLowerCase().equals(landSet.getText().toLowerCase()) &&
 						              				   	 i.Postleitzahl== Integer.parseInt(postleitzahlSet.getText()) &&
 						              				     i.Stadt.toLowerCase().equals(stadtSet.getText().toLowerCase()) &&
-						              					 i.Straße.toLowerCase().equals(straÃŸeSet.getText().toLowerCase()) &&
+						              					 i.Straße.toLowerCase().equals(straßeSet.getText().toLowerCase()) &&
 						              					 i.Telefon.toLowerCase().equals(telefonSet.getText().toLowerCase()))).count() != 0)
 						                        	  {
 
@@ -381,7 +381,7 @@ public abstract class MainGUI extends Application{
 						              									"Kunde",
 						              									nachnameSet.getText(),
 						              									vornameSet.getText(),
-						              									straÃŸeSet.getText(),
+						              									straßeSet.getText(),
 						              									Integer.parseInt(hausnummerSet.getText()),
 						              									Integer.parseInt(postleitzahlSet.getText()),
 						              									stadtSet.getText(),
@@ -407,7 +407,7 @@ public abstract class MainGUI extends Application{
 						          									"Kunde",
 						          									nachnameSet.getText(),
 						          									vornameSet.getText(),
-						          									straÃŸeSet.getText(),
+						          									straßeSet.getText(),
 						          									Integer.parseInt(hausnummerSet.getText()),
 						          									Integer.parseInt(postleitzahlSet.getText()),
 						          									stadtSet.getText(),
