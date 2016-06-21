@@ -26,13 +26,15 @@ import javafx.stage.WindowEvent;
 import mainFunctionality.Driver;
 import mainFunctionality.Kundenliste;
 import persons.Kunde;
+import javafx.application.Platform;
 
 public abstract class MainGUI extends Application{
 
 	public final static TableView<Kunde> kundentable = new TableView<Kunde>();
 	
 	
-
+ // Thread 
+	
 	@SuppressWarnings("unchecked")
 	public static void startMainGui(final Stage mainStage) {
 		
@@ -43,6 +45,8 @@ public abstract class MainGUI extends Application{
 					} catch (Exception e) {
 						e.printStackTrace();
 					} 
+		            // Guarded wait observable list 
+		            
 		           kundentable.refresh();
 		        }
 		    }); 
@@ -85,7 +89,7 @@ public abstract class MainGUI extends Application{
 
 		kundentable.setPlaceholder(new Label("keine Kunden gefunden"));
 
-		kundentable.setEditable(true);
+		kundentable.setEditable(false);
 		final TableColumn<Kunde, String> firstNameCol = new TableColumn<Kunde, String>("Vorname");
 		TableColumn<Kunde, String> lastNameCol = new TableColumn<Kunde, String>("Nachname");
 		TableColumn<Kunde, Integer> kundennummerCol = new TableColumn<Kunde, Integer>("Kundennr.");
@@ -143,7 +147,7 @@ public abstract class MainGUI extends Application{
 
 				// specify stage locations.
 				addStage.setX(900);
-				addStage.setY(400);
+				addStage.setY(200);
 
 				// add a trigger to hide the secondary
 				// stage when the primary stage is
@@ -376,8 +380,8 @@ public abstract class MainGUI extends Application{
 						                                  Optional<ButtonType> result = doppelterKunde.showAndWait();
 						                                  if (result.get() == yesButton){
 						                                      
-
-						              						            newdriver.add(
+						                                	//thread 
+						                                	  Platform.runLater( () -> newdriver.add(
 						              									"Kunde",
 						              									nachnameSet.getText(),
 						              									vornameSet.getText(),
@@ -390,7 +394,8 @@ public abstract class MainGUI extends Application{
 						              									Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
 						              									Notiz
 						              								
-						              							    );
+						              							    ) );
+						              						           
 						     										
 						              						 landSet.getStyle();	    
 						                                 	 addStage.hide();
@@ -402,21 +407,22 @@ public abstract class MainGUI extends Application{
 						                        	  }
 						                        	  
 						                        	  else {
-
-						          						newdriver.add(
-						          									"Kunde",
-						          									nachnameSet.getText(),
-						          									vornameSet.getText(),
-						          									straßeSet.getText(),
-						          									Integer.parseInt(hausnummerSet.getText()),
-						          									Integer.parseInt(postleitzahlSet.getText()),
-						          									stadtSet.getText(),
-						          									landSet.getText(),
-						          									telefonSet.getText(),
-						          									Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
-						          									Notiz
-						          								
-						          							    );
+                                                          //thread 
+						                        		  Platform.runLater( () -> newdriver.add(
+					              									"Kunde",
+					              									nachnameSet.getText(),
+					              									vornameSet.getText(),
+					              									straßeSet.getText(),
+					              									Integer.parseInt(hausnummerSet.getText()),
+					              									Integer.parseInt(postleitzahlSet.getText()),
+					              									stadtSet.getText(),
+					              									landSet.getText(),
+					              									telefonSet.getText(),
+					              									Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
+					              									Notiz
+					              								
+					              							    ) );
+					              						           
 						          							
 						          						   
 

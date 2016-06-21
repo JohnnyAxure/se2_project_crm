@@ -24,7 +24,8 @@ public class Kundenliste {
 		}
 
 	}
-
+	
+ 
 	@SuppressWarnings("rawtypes")
 	public static  void search(TextField suchfeld, TableView kundentable) {
 
@@ -39,10 +40,10 @@ public class Kundenliste {
 	            		 			 			// Stream
 	            		 			 			
 	            		 				 		List<Kunde> filteredList =   listeDerKunden.stream()
-	            		 				 				                                               .filter(i -> i.Name.toLowerCase().contains(suche.toLowerCase()) 
+	            		 				 				                                    .filter(i -> i.Name.toLowerCase().contains(suche.toLowerCase()) 
 			                                            	                                                  	    || i.Vorname.toLowerCase().contains(suche.toLowerCase())
 			                                            	                                                        || String.valueOf(i.Kundennummer).contains(suche.toLowerCase()))
-	            		 				 				                                               .collect(Collectors.toList());
+	            		 				 				                                     .collect(Collectors.toList());
 	            		 				 				                                                       
 	            		 				 		ObservableList<Kunde> observableFilteredList = FXCollections.observableList(filteredList);
 	            		 				 		
