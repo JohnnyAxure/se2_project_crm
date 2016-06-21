@@ -1,5 +1,10 @@
 package gui;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,11 +23,17 @@ import javafx.scene.paint.Color;
 
 public class LoginGUI extends Application {
 
-
+	private static final Logger log1 = Logger.getLogger(LoginGUI.class.getName());
+	
 	@Override
 	public void start(final Stage loginStage) {
 		loginStage.setTitle("CRM Manager");
 
+		Handler handlerPrimary = new ConsoleHandler();
+		handlerPrimary.setLevel(Level.FINE);
+		log1.addHandler(handlerPrimary);
+		log1.setLevel(Level.FINE);
+		log1.fine("Launched Primary Stage.");
 		
 		VBox vb = new VBox();
 		vb.setPadding(new Insets(10, 50, 50, 50));
@@ -86,13 +97,17 @@ public class LoginGUI extends Application {
 					if (checkUser.equals(Admin.username)
 							&& checkPw.equals(Admin.password)) {
 
+						log1.fine("Inserted correct username and password.");
 						MainGUI.startMainGui(loginStage);
+						log1.fine("Launching Main GUI.");
 					}
 					else {
 
 						lblMessage.setText("Falsches Passwort oder Name");
 
 						lblMessage.setTextFill(Color.RED);
+						
+						log1.fine("Inserted wrong username or password.");
 						
 						txtUser.requestFocus();
 
@@ -110,6 +125,7 @@ public class LoginGUI extends Application {
 
 		public static void main(String[] args) {
 			launch(args);
+			log1.fine("Terminating Application.");
 		}
 
 	}

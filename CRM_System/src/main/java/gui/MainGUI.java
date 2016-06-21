@@ -1,6 +1,12 @@
 package gui;
 
 import java.util.Optional;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import SE2.CRM_System.MainGUI;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,6 +36,8 @@ import javafx.application.Platform;
 
 public abstract class MainGUI extends Application{
 
+	private static final Logger log2 = Logger.getLogger(MainGUI.class.getName());
+	
 	public final static TableView<Kunde> kundentable = new TableView<Kunde>();
 	
 	
@@ -37,6 +45,12 @@ public abstract class MainGUI extends Application{
 	
 	@SuppressWarnings("unchecked")
 	public static void startMainGui(final Stage mainStage) {
+		
+		Handler handlerSecondary = new ConsoleHandler();
+		handlerSecondary.setLevel(Level.FINEST);
+		log2.addHandler(handlerSecondary);
+		log2.setLevel(Level.FINEST);
+		log2.fine("Launched Main Stage.");
 		
 		 Thread threadRefresh = new Thread(() -> {
 		        while (true) {
@@ -123,9 +137,11 @@ public abstract class MainGUI extends Application{
 					public void handle(MouseEvent event) {
 						if (event.getClickCount() > 1) {
 							
+							log2.fine("Selected Object from Table.");
 							 final Kunde selected = (Kunde)kundentable.getSelectionModel().getSelectedItem();
 							 
 							 final Stage infoStage = new Stage();
+							 log2.fine("Launching Info Stage.");
 							InfoGUI.startInfoGUI(infoStage,mainStage, selected);
 						}
 				}});
@@ -142,6 +158,7 @@ public abstract class MainGUI extends Application{
 		add.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){	
 				
+				log2.fine("Adding new contact.");
 				final Stage addStage = new Stage();
 				addStage.setTitle("Kontakt hinzufügen");
 
@@ -160,6 +177,7 @@ public abstract class MainGUI extends Application{
 							public void handle(
 									WindowEvent onClosing) {
 								addStage.hide();
+								log2.fine("Closed Primary Stage, terminating.");
 														}
 						});
 
@@ -333,7 +351,7 @@ public abstract class MainGUI extends Application{
 				
 				speichern.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent event){
-						
+						log2.fine("Saving new Contact.");
 						
 						try{
                             Integer.parseInt(postleitzahlSet.getText());
@@ -342,7 +360,7 @@ public abstract class MainGUI extends Application{
                      }
                      catch (NumberFormatException f){
                         
-                    	 
+                    	 log2.log(Level.WARNING, "Number Format Exception, probably invalid input. Launching Alert Window.", f);
                          System.out.println("Fehler");
                         
                          Alert formatException2 = new Alert(AlertType.WARNING);
@@ -379,7 +397,7 @@ public abstract class MainGUI extends Application{
 
 						                                  Optional<ButtonType> result = doppelterKunde.showAndWait();
 						                                  if (result.get() == yesButton){
-						                                      
+						                                	  log2.fine("Adding duplicate Contact.");
 						                                	//thread 
 						                                	  Platform.runLater( () -> newdriver.add(
 						              									"Kunde",
@@ -399,6 +417,7 @@ public abstract class MainGUI extends Application{
 						     										
 						              						 landSet.getStyle();	    
 						                                 	 addStage.hide();
+						                                 	
 						                                 	 
 						                                  } else{
 						                                 	 doppelterKunde.hide();
@@ -427,6 +446,7 @@ public abstract class MainGUI extends Application{
 						          						   
 
 						          						addStage.hide();
+						          						log2.fine("Terminating Info Stage.");
 						                        	  }
 					                              }
 						                          });

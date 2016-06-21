@@ -1,6 +1,11 @@
 package gui;
 
 import java.util.Optional;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -26,11 +31,15 @@ import persons.Kunde;
 
 public abstract class InfoGUI extends Application {
 
-
+	private static final Logger log3 = Logger.getLogger(LoginGUI.class.getName());
 	
 
 	public static void startInfoGUI(final Stage infoStage,final Stage mainStage, final Kunde selected){
 
+		Handler handlerThird = new ConsoleHandler();
+		handlerThird.setLevel(Level.FINEST);
+		log3.addHandler(handlerThird);
+		log3.setLevel(Level.FINEST);
 
 		
 		infoStage.setTitle("Kontakt");
@@ -48,6 +57,7 @@ public abstract class InfoGUI extends Application {
 			public void handle(
 					WindowEvent onClosing) {
 				infoStage.hide();
+				log3.fine("Closed Primary Stage, terminating.");
 			}
 		});
 		infoStage.setOnHidden(new EventHandler<WindowEvent>() {
@@ -273,6 +283,7 @@ public abstract class InfoGUI extends Application {
 		infoStage.setScene(scene3);
 
 		infoStage.show();
+		log3.fine("Launched Info Stage.");
 		
 		
 		//Handler
@@ -280,6 +291,7 @@ public abstract class InfoGUI extends Application {
 		
 		notiz.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
+				log3.fine("Adding a Note to Contact.");
 				
 					final Stage notizStage = new Stage();
 					notizStage.setTitle("Kontakt");
@@ -294,6 +306,7 @@ public abstract class InfoGUI extends Application {
 		            Scene scene = new Scene(htmlEditor);       
 		            notizStage.setScene(scene);
 		            notizStage.show();
+		            log3.fine("Launched Note Stage.");
 		            
 		            notizStage.setOnHidden(new EventHandler<WindowEvent>() {
 
@@ -301,7 +314,7 @@ public abstract class InfoGUI extends Application {
 								WindowEvent onClosing) {
 							
 							selected.Notiz =  htmlEditor;
-							
+							log3.fine("Closed Primary Stage, terminating.");
 							notizStage.hide();
 						}
 					});
@@ -381,6 +394,7 @@ public abstract class InfoGUI extends Application {
               }
               catch (NumberFormatException f){
                  
+            	  log3.log(Level.WARNING, "Number Format Exception, probably invalid input. Launching Alert Window.", f);
                   System.out.println("Fehler");
                  
                   Alert formatException2 = new Alert(AlertType.WARNING);
