@@ -70,7 +70,7 @@ public abstract class InfoGUI extends Application {
 
 		
 
-		VBox vb3 = new VBox();
+		final VBox vb3 = new VBox();
 		vb3.setPadding(new Insets(10, 50, 50,
 				50));
 		vb3.setSpacing(5);
@@ -265,13 +265,13 @@ public abstract class InfoGUI extends Application {
 		bearbeiten.setText("Bearbeiten");
 		vb3.getChildren().add(bearbeiten);
 		
-	    Button speichern = new Button();
+	    final Button speichern = new Button();
 	    speichern.setTranslateY(-105);
 	    speichern.setTranslateX(190);
 	    speichern.setText("Speichern");
 	 
 	   
-		Button löschen = new Button();
+		final Button löschen = new Button();
 		löschen.setTranslateY(-120);
 		löschen.setTranslateX(350);
 		löschen.setText("Kunde löschen");
