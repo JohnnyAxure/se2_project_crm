@@ -5,7 +5,6 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,18 +29,43 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mainFunctionality.Driver;
 import mainFunctionality.Kundenliste;
-import persons.Kunde;
+import persons.IKunde;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+/**
+* The CRM_System program implements an application that
+* organizes customers 
+*
+* @author  ss401 , jh170 , bb071
+* @version 1.0
+* @since   2016.06.28
+*/
+
+/**
+ * main gui.
+ * Shows a table with all our customers. 
+ * Has a search method, to search for specific customer. 
+ * Opens a new window, when clicking on a customer, which shows customers information.
+ * Has an add button, which opens a new window to create a new customer
+ */
 public abstract class MainGUI extends Application{
 
+	
 	private static final Logger log2 = Logger.getLogger(MainGUI.class.getName());
 	
-	public final static TableView<Kunde> kundentable = new TableView<Kunde>();
+	/**
+	 * table which shows all the customers
+	 */
+	public final static TableView<IKunde> kundentable = new TableView<IKunde>();
 	
 	
- // Thread 
 	
+	/**
+	 * this method opens our main gui
+	 * @param mainStage Stage that did contain out LoginGUI
+	 */
 	@SuppressWarnings("unchecked")
 	public static void startMainGui(final Stage mainStage) {
 		
@@ -51,8 +75,35 @@ public abstract class MainGUI extends Application{
 		log2.setLevel(Level.FINEST);
 		log2.fine("Launched Main Stage.");
 		
+	
+		Boolean unused= true; 
+		
+//		public synchronized threadrefresh() {
+//			while(unused){
+//
+//				 Thread threadRefresh = new Thread(() -> {
+//				        while (true) {
+//				            try {
+//								Thread.sleep(3000);
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//							} 
+//				            // Guarded wait observable list 
+//				            
+//				           kundentable.refresh();
+//				           //unused= false;
+//				           
+//				        }
+//				    }); 
+//				 threadRefresh.start();
+//			}}
+		
+			
+		/*
+		 * Thread that refreshes our table every three seconds
+		 */
 		 Thread threadRefresh = new Thread(() -> {
-		        while (true) {
+		        while (unused) {
 		            try {
 						Thread.sleep(3000);
 					} catch (Exception e) {
@@ -61,9 +112,52 @@ public abstract class MainGUI extends Application{
 		            // Guarded wait observable list 
 		            
 		           kundentable.refresh();
+		           //unused= false;
+		           
 		        }
 		    }); 
 		 threadRefresh.start();
+		 
+		 /*
+		  * backup List which saves the current customer list
+		  */
+		 ObservableList<IKunde> backupList = FXCollections.observableArrayList();
+		 
+
+			// Thread backup
+//		 public synchronized threadBackup(){
+//			 while(!unused){
+//				 try{
+//					 Thread.sleep(3000);
+//				 }
+//				 catch (Exception e){}
+//			 }
+//			 
+//			 backupList.addAll(Kundenliste.listeDerKunden);
+//			 System.out.println(backupList);
+//			 unused = true;
+//			 notifyAll();
+//
+//		 }
+		 
+		 /*
+		  * Thread that creates an backup of the customer list and prints it on our console every three seconds
+		  */
+		 Thread threadBackup = new Thread(() -> {
+			while (unused) {
+		            try {
+						Thread.sleep(3000);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
+		        
+		            backupList.addAll(Kundenliste.getListeDerKunden());
+					 System.out.println(backupList);
+		   
+		 }});
+		 
+		 threadBackup.start();
+		 
 	
 		
 		VBox vb2 = new VBox();
@@ -103,24 +197,27 @@ public abstract class MainGUI extends Application{
 		kundentable.setPlaceholder(new Label("keine Kunden gefunden"));
 
 		kundentable.setEditable(false);
-		final TableColumn<Kunde, String> firstNameCol = new TableColumn<Kunde, String>("Vorname");
-		TableColumn<Kunde, String> lastNameCol = new TableColumn<Kunde, String>("Nachname");
-		TableColumn<Kunde, Integer> kundennummerCol = new TableColumn<Kunde, Integer>("Kundennr.");
+		final TableColumn<IKunde, String> firstNameCol = new TableColumn<IKunde, String>("Vorname");
+		TableColumn<IKunde, String> lastNameCol = new TableColumn<IKunde, String>("Nachname");
+		TableColumn<IKunde, Integer> kundennummerCol = new TableColumn<IKunde, Integer>("Kundennr.");
 		
 
 		kundentable.getColumns().addAll(firstNameCol, lastNameCol,kundennummerCol);
 
 		firstNameCol.setMinWidth(120);
-		firstNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Vorname"));
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<IKunde, String>("Vorname"));
 		
 
 		lastNameCol.setMinWidth(120);
-		lastNameCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("Name"));
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<IKunde, String>("Name"));
 		
 		kundennummerCol.setMinWidth(120);
-		kundennummerCol.setCellValueFactory(new PropertyValueFactory<Kunde, Integer>("Kundennummer"));
+		kundennummerCol.setCellValueFactory(new PropertyValueFactory<IKunde, Integer>("Kundennummer"));
 		
-		kundentable.setItems(Kundenliste.listeDerKunden);
+		/*
+		 * fill the table with all the customers in our customer List
+		 */
+		kundentable.setItems(Kundenliste.getListeDerKunden());
 		vb2.getChildren().add(kundentable);
 
 		Scene scene2 = new Scene(vb2, 460, 800);
@@ -129,15 +226,18 @@ public abstract class MainGUI extends Application{
 		mainStage.show();
 		
 		
-		// Handler Kontakt
 		
-
+        /*
+         * Handler
+         * opens a new window that shows the information of the customer that got clicked
+         */
+		
 		kundentable.addEventFilter(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent event) {
 						if (event.getClickCount() > 1) {
 							
 							log2.fine("Selected Object from Table.");
-							 final Kunde selected = (Kunde)kundentable.getSelectionModel().getSelectedItem();
+							 final IKunde selected = (IKunde)kundentable.getSelectionModel().getSelectedItem();
 							 
 							 final Stage infoStage = new Stage();
 							 log2.fine("Launching Info Stage.");
@@ -146,14 +246,19 @@ public abstract class MainGUI extends Application{
 				}});
 		
 		
-		//Suchfeld
+		/*
+		 * add search function
+		 */
 		
 		Kundenliste.search(suchfeld, kundentable);
 		
 
 
-		// Handler 
 		
+		/*
+		 * Handler
+		 * opens a new window to create a new customer
+		 */
 		add.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){	
 				
@@ -171,12 +276,13 @@ public abstract class MainGUI extends Application{
 				// this will cause all stages to be
 				// hidden (which will cause the app to
 				// terminate).
-				mainStage.setOnHidden(new EventHandler<WindowEvent>() {
+		 mainStage.setOnHidden(new EventHandler<WindowEvent>() {
 
-							public void handle(
-									WindowEvent onClosing) {
-								addStage.hide();
-								log2.fine("Closed Primary Stage, terminating.");
+				public void handle(
+						WindowEvent onClosing) {
+						 addStage.hide();
+						 log2.fine("Closed Primary Stage, terminating.");
+								
 														}
 						});
 
@@ -321,7 +427,7 @@ public abstract class MainGUI extends Application{
 				vb4.getChildren().add(kundennummer);
 				
 				final TextField kundennummerSet = new TextField();
-				kundennummerSet.setText(String.valueOf(Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1));
+				kundennummerSet.setText(String.valueOf(Kundenliste.getListeDerKunden().get(Kundenliste.getListeDerKunden().size()-1).getKundennummer()+1));
 				kundennummerSet.setEditable(false);
 				kundennummerSet.setMouseTransparent(true);
 				kundennummerSet.setFocusTraversable(false);
@@ -346,8 +452,11 @@ public abstract class MainGUI extends Application{
 
 				addStage.show();
 				
-				// Handler 
-				
+			
+				/*
+				 * Handler
+				 * creates a new customer and checks if the customer already exists
+				 */
 				speichern.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent event){
 						log2.fine("Saving new Contact.");
@@ -369,19 +478,22 @@ public abstract class MainGUI extends Application{
                          formatException2.showAndWait();
                      }
 						
-						HTMLEditor Notiz= new HTMLEditor();
+						HTMLEditor notiz= new HTMLEditor();
 					
-                       //stream
+                                                      /*
+                                                       * stream
+                                                       * checks if the customer already exists
+                                                       */
 						
-						                        	  if((Kundenliste.listeDerKunden.stream().filter(i -> 
-						                        	     i.Vorname.toLowerCase().equals(vornameSet.getText().toLowerCase())&&
-						                        	     i.Name.toLowerCase().equals(nachnameSet.getText().toLowerCase())	&&
-						              					 i.Hausnummer ==Integer.parseInt(hausnummerSet.getText()) &&
-						              				     i.Land.toLowerCase().equals(landSet.getText().toLowerCase()) &&
-						              				   	 i.Postleitzahl== Integer.parseInt(postleitzahlSet.getText()) &&
-						              				     i.Stadt.toLowerCase().equals(stadtSet.getText().toLowerCase()) &&
-						              					 i.Straße.toLowerCase().equals(straßeSet.getText().toLowerCase()) &&
-						              					 i.Telefon.toLowerCase().equals(telefonSet.getText().toLowerCase()))).count() != 0)
+						                        	  if((Kundenliste.getListeDerKunden().stream().filter(i -> 
+						                        	     i.getVorname().toLowerCase().equals(vornameSet.getText().toLowerCase())&&
+						                        	     i.getName().toLowerCase().equals(nachnameSet.getText().toLowerCase())	&&
+						              					 i.getHausnummer() ==Integer.parseInt(hausnummerSet.getText()) &&
+						              				     i.getLand().toLowerCase().equals(landSet.getText().toLowerCase()) &&
+						              				   	 i.getPostleitzahl()== Integer.parseInt(postleitzahlSet.getText()) &&
+						              				     i.getStadt().toLowerCase().equals(stadtSet.getText().toLowerCase()) &&
+						              					 i.getStraße().toLowerCase().equals(straßeSet.getText().toLowerCase()) &&
+						              					 i.getTelefon().toLowerCase().equals(telefonSet.getText().toLowerCase()))).count() != 0)
 						                        	  {
 
 						                                  Alert doppelterKunde = new Alert(AlertType.INFORMATION);
@@ -397,7 +509,11 @@ public abstract class MainGUI extends Application{
 						                                  Optional<ButtonType> result = doppelterKunde.showAndWait();
 						                                  if (result.get() == yesButton){
 						                                	  log2.fine("Adding duplicate Contact.");
-						                                	//thread 
+						                                	
+						                                	  /*
+						                                	   * thread
+						                                	   * adds customer 
+						                                	   */
 						                                	  Platform.runLater( () -> newdriver.add(
 						              									"Kunde",
 						              									nachnameSet.getText(),
@@ -408,8 +524,8 @@ public abstract class MainGUI extends Application{
 						              									stadtSet.getText(),
 						              									landSet.getText(),
 						              									telefonSet.getText(),
-						              									Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
-						              									Notiz
+						              									Kundenliste.getListeDerKunden().get(Kundenliste.getListeDerKunden().size()-1).getKundennummer()+1,
+						              									notiz
 						              								
 						              							    ) );
 						              						           
@@ -425,7 +541,11 @@ public abstract class MainGUI extends Application{
 						                        	  }
 						                        	  
 						                        	  else {
-                                                          //thread 
+						                        		  
+						                        		  /*
+					                                	   * thread
+					                                	   * adds customer 
+					                                	   */
 						                        		  Platform.runLater( () -> newdriver.add(
 					              									"Kunde",
 					              									nachnameSet.getText(),
@@ -436,8 +556,8 @@ public abstract class MainGUI extends Application{
 					              									stadtSet.getText(),
 					              									landSet.getText(),
 					              									telefonSet.getText(),
-					              									Kundenliste.listeDerKunden.get(Kundenliste.listeDerKunden.size()-1).Kundennummer+1,
-					              									Notiz
+					              									Kundenliste.getListeDerKunden().get(Kundenliste.getListeDerKunden().size()-1).getKundennummer()+1,
+					              									notiz
 					              								
 					              							    ) );
 					              						           
@@ -458,4 +578,3 @@ public abstract class MainGUI extends Application{
 	}
 	
 	
-

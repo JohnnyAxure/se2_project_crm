@@ -1,6 +1,5 @@
 package SE2.CRM_System;
 
-import mainFunctionality.FactoryKunde;
 import mainFunctionality.Kundenliste;
 
 import org.junit.Test;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import org.junit.Assert;
 
 import persons.Admin;
+import persons.FactoryKunde;
 import persons.Kunde;
 
 public class CRM_System_Test {

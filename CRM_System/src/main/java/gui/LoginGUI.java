@@ -21,10 +21,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
+/**
+* The CRM_System program implements an application that
+* organizes customers 
+*
+* @author  ss401 , jh170 , bb071
+* @version 1.0
+* @since   2016.06.28
+*/
+
+/**
+ * login gui.
+ * opens a log in window , where the admin can insert his username and password.
+ * it only starts the main gui if the input is correct
+ */
+
 public class LoginGUI extends Application {
 
 	private static final Logger log1 = Logger.getLogger(LoginGUI.class.getName());
 	
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(final Stage loginStage) {
 		loginStage.setTitle("CRM Manager");
@@ -74,7 +92,6 @@ public class LoginGUI extends Application {
 		loginButton.getStyleClass().add("button");
 		vb.getChildren().add(loginButton);
 
-		// Adding VBox to the scene
 		
 		
 		
@@ -84,8 +101,12 @@ public class LoginGUI extends Application {
 			loginStage.setScene(scene);
 			loginStage.show();
 
-			// Handler
-
+			/*
+			 * Handler
+			 * checks if the username and password is right.
+			 * The MainGUI gets started if it is right.
+			 * If not an error message appears
+			 */
 			loginButton.setOnAction(new EventHandler<ActionEvent>() {
 
 				public void handle(ActionEvent event) {
@@ -123,6 +144,12 @@ public class LoginGUI extends Application {
 
 		}
 
+	
+		/**
+		 * main method. 
+		 * this method starts the whole program
+		 * @param args args
+		 */
 		public static void main(String[] args) {
 			launch(args);
 			log1.fine("Terminating Application.");

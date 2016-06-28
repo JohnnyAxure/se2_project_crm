@@ -26,15 +26,37 @@ import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mainFunctionality.Kundenliste;
+import persons.IKunde;
 import persons.Kunde;
 
+/**
+* The CRM_System program implements an application that
+* organizes customers 
+*
+* @author  ss401 , jh170 , bb071
+* @version 1.0
+* @since   2016.06.28
+*/
+
+/**
+ * info gui.
+ * opens a new window with all the customer details.
+ * the customer details can be changed and notes can be added.
+ * can delete the customer
+ */
 
 public abstract class InfoGUI extends Application {
 
 	private static final Logger log3 = Logger.getLogger(LoginGUI.class.getName());
 	
 
-	public static void startInfoGUI(final Stage infoStage,final Stage mainStage, final Kunde selected){
+	/**
+	 * opens the info gui window
+	 * @param infoStage Stage in which the customer information is shown
+	 * @param mainStage mainStage, if the mainStage gets closed, the infoStage should also close
+	 * @param selected the customer, whose information should be shown
+	 */
+	public static void startInfoGUI(final Stage infoStage,final Stage mainStage, final IKunde selected){
 
 		Handler handlerThird = new ConsoleHandler();
 		handlerThird.setLevel(Level.FINEST);
@@ -44,14 +66,12 @@ public abstract class InfoGUI extends Application {
 		
 		infoStage.setTitle("Kontakt");
         infoStage.setX(900);
-		infoStage.setY(400);
+		infoStage.setY(150);
 
-		// add a trigger to hide the secondary
-		// stage when the primary stage is
-		// hidden.
-		// this will cause all stages to be
-		// hidden (which will cause the app to
-		// terminate).
+		/*
+		 * Handler
+		 * closes the info window when the main window gets closed
+		 */
 		mainStage.setOnHidden(new EventHandler<WindowEvent>() {
 
 			public void handle(
@@ -60,6 +80,12 @@ public abstract class InfoGUI extends Application {
 				log3.fine("Closed Primary Stage, terminating.");
 			}
 		});
+		
+		
+		/*
+		 * Handler
+		 * closes the info window
+		 */
 		infoStage.setOnHidden(new EventHandler<WindowEvent>() {
 
 					public void handle(
@@ -89,7 +115,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(vorname);
 		
 		final TextField vornameGet = new TextField();
-		vornameGet.setText(selected.Vorname);
+		vornameGet.setText(selected.getVorname());
 		vornameGet.setTranslateY(-10);
 		vornameGet.setTranslateX(150);
 		vornameGet.setEditable(false);
@@ -108,7 +134,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(nachname);
 		
 		final TextField nachnameGet = new TextField();
-		nachnameGet.setText(selected.Name);
+		nachnameGet.setText(selected.getName());
 		nachnameGet.setTranslateY(-20);
 		nachnameGet.setTranslateX(150);
 		nachnameGet.setEditable(false);
@@ -127,7 +153,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(straße);
 		
 		final TextField straßeGet = new TextField();
-		straßeGet.setText(selected.Straße);
+		straßeGet.setText(selected.getStraße());
 		straßeGet.setTranslateY(-30);
 		straßeGet.setTranslateX(150);
 		straßeGet.setEditable(false);
@@ -146,7 +172,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(hausnummer);
 		
 		final TextField hausnummerGet = new TextField();
-		hausnummerGet.setText(String.valueOf(selected.Hausnummer));
+		hausnummerGet.setText(String.valueOf(selected.getHausnummer()));
 		hausnummerGet.setTranslateY(-40);
 		hausnummerGet.setTranslateX(150);
 		hausnummerGet.setEditable(false);
@@ -165,7 +191,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(postleitzahl);
 		
 		final TextField postleitzahlGet = new TextField();
-		postleitzahlGet.setText(String.valueOf(selected.Postleitzahl));
+		postleitzahlGet.setText(String.valueOf(selected.getPostleitzahl()));
 		postleitzahlGet.setTranslateY(-50);
 		postleitzahlGet.setTranslateX(150);
 		postleitzahlGet.setEditable(false);
@@ -184,7 +210,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(stadt);
 		
 		final TextField stadtGet = new TextField();
-		stadtGet.setText(String.valueOf(selected.Stadt));
+		stadtGet.setText(String.valueOf(selected.getStadt()));
 		stadtGet.setTranslateY(-60);
 		stadtGet.setTranslateX(150);
 		stadtGet.setEditable(false);
@@ -203,7 +229,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(land);
 		
 		final TextField landGet = new TextField();
-		landGet.setText(String.valueOf(selected.Land));
+		landGet.setText(String.valueOf(selected.getLand()));
 		landGet.setTranslateY(-70);
 		landGet.setTranslateX(150);
 		landGet.setEditable(false);
@@ -222,7 +248,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(telefon);
 		
 		final TextField telefonGet = new TextField();
-		telefonGet.setText(String.valueOf(selected.Telefon));
+		telefonGet.setText(String.valueOf(selected.getTelefon()));
 		telefonGet.setTranslateY(-80);
 		telefonGet.setTranslateX(150);
 		telefonGet.setEditable(false);
@@ -241,7 +267,7 @@ public abstract class InfoGUI extends Application {
 		vb3.getChildren().add(kundennummer);
 		
 		final TextField kundennummerGet = new TextField();
-		kundennummerGet.setText(String.valueOf(selected.Kundennummer));										
+		kundennummerGet.setText(String.valueOf(selected.getKundennummer()));										
 		kundennummerGet.setTranslateY(-90);
 		kundennummerGet.setTranslateX(150);
 		kundennummerGet.setEditable(false);
@@ -271,11 +297,11 @@ public abstract class InfoGUI extends Application {
 	    speichern.setText("Speichern");
 	 
 	   
-		final Button löschen = new Button();
-		löschen.setTranslateY(-120);
-		löschen.setTranslateX(350);
-		löschen.setText("Kunde löschen");
-		vb3.getChildren().add(löschen);
+		final Button loeschen = new Button();
+		loeschen.setTranslateY(-120);
+		loeschen.setTranslateX(350);
+		loeschen.setText("Kunde löschen");
+		vb3.getChildren().add(loeschen);
 
 		Scene scene3 = new Scene(vb3, 600, 650);
 		scene3.getStylesheets().add("myStylesheet.css");
@@ -286,9 +312,11 @@ public abstract class InfoGUI extends Application {
 		log3.fine("Launched Info Stage.");
 		
 		
-		//Handler
-
-		
+		/*
+		 * Handler
+		 * opens a new window.
+		 * In this window notes can be added and changed
+		 */
 		notiz.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				log3.fine("Adding a Note to Contact.");
@@ -300,7 +328,7 @@ public abstract class InfoGUI extends Application {
 					
 					final HTMLEditor htmlEditor = new HTMLEditor();
 					
-					htmlEditor.setHtmlText(selected.Notiz.getHtmlText());
+					htmlEditor.setHtmlText(selected.getNotiz().getHtmlText());
 		
 		           
 		            Scene scene = new Scene(htmlEditor);       
@@ -308,12 +336,16 @@ public abstract class InfoGUI extends Application {
 		            notizStage.show();
 		            log3.fine("Launched Note Stage.");
 		            
+		            /*
+		             * Handler
+		             * closes notes window
+		             */
 		            notizStage.setOnHidden(new EventHandler<WindowEvent>() {
 
 						public void handle(
 								WindowEvent onClosing) {
 							
-							selected.Notiz =  htmlEditor;
+							selected.setNotiz(htmlEditor);
 							log3.fine("Closed Primary Stage, terminating.");
 							notizStage.hide();
 						}
@@ -324,7 +356,10 @@ public abstract class InfoGUI extends Application {
 		
 		
 		
-		// Handler
+		/*
+		 * Handler
+		 * makes the customer information editable
+		 */
 		
 		bearbeiten.setOnAction(new EventHandler<ActionEvent>(){
 			
@@ -376,13 +411,16 @@ public abstract class InfoGUI extends Application {
 				
 				speichern.setTranslateY(-120);
 				speichern.setTranslateX(190);
-				löschen.setTranslateY(-84);
-				löschen.setTranslateX(350);
+				loeschen.setTranslateY(-84);
+				loeschen.setTranslateX(350);
 			    
 				
 		}});
 		
-		//Handler
+		/*
+		 * Handler
+		 * saves the changed informations and throws an exceptions when an input is invalid
+		 */
 		
 		speichern.setOnAction(new EventHandler<ActionEvent>(){
 				public void handle(ActionEvent event){
@@ -461,8 +499,7 @@ public abstract class InfoGUI extends Application {
 					
 					bearbeiten.setTranslateY(-120);
 					bearbeiten.setTranslateX(185);
-					
-				    //MainGUI.kundentable.refresh();
+	
 					
 				}
 		});
@@ -470,32 +507,35 @@ public abstract class InfoGUI extends Application {
 		
 		
 		
-		// handler
+	    /*
+	     * Handler
+	     * deletes the selected customer
+	     */
 		
-		löschen.setOnAction(new EventHandler<ActionEvent>(){
+		loeschen.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 			
     
-				Alert kundeLöschen = new Alert(AlertType.INFORMATION);
-				kundeLöschen.setTitle("Kunde löschen");
-				kundeLöschen.setContentText("Wollen Sie den Kunden wirklich löschen?");
+				Alert kundeLoeschen = new Alert(AlertType.INFORMATION);
+				kundeLoeschen.setTitle("Kunde löschen");
+				kundeLoeschen.setContentText("Wollen Sie den Kunden wirklich löschen?");
 
 
                 ButtonType yesButton = new ButtonType("Ja");
                 ButtonType noButton = new ButtonType("Nein", ButtonData.CANCEL_CLOSE);
 
-                kundeLöschen.getButtonTypes().setAll(yesButton, noButton);
+                kundeLoeschen.getButtonTypes().setAll(yesButton, noButton);
                 
                 
-                Optional<ButtonType> result = kundeLöschen.showAndWait();
+                Optional<ButtonType> result = kundeLoeschen.showAndWait();
                 if (result.get() == yesButton){
                     
-                	Kundenliste.listeDerKunden.remove(selected);
+                	Kundenliste.getListeDerKunden().remove(selected);
     				infoStage.hide();
     					
                	 
                 } else {
-                	kundeLöschen.hide();
+                	kundeLoeschen.hide();
                     
                 } 
 
@@ -506,7 +546,4 @@ public abstract class InfoGUI extends Application {
 		
 		
 		
-	}
-
-}
-
+	}}

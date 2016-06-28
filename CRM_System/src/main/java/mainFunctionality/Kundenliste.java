@@ -9,28 +9,54 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import persons.Kunde;
+import persons.IKunde;
 
+/**
+* The CRM_System program implements an application that
+* organizes customers 
+*
+* @author  ss401 , jh170 , bb071
+* @version 1.0
+* @since   2016.06.28
+*/
+
+/**
+ * Represents customer list
+ */
 public class Kundenliste {
 
-	public static ObservableList<Kunde> listeDerKunden = FXCollections.observableArrayList();
+	/**
+	 * list that collects all the customers
+	 */
+	private static ObservableList<IKunde> listeDerKunden = FXCollections.observableArrayList();
 	
 	
-	public void show() {
 		
-		for (int i = 0; i < listeDerKunden.size(); i++) {
-			System.out.println(listeDerKunden.get(i));
-
-		}
-
-	}
-	
  
-	@SuppressWarnings("rawtypes")
-	public static  void search(TextField suchfeld, TableView kundentable) {
+/**
+ * @return the customer list
+ */
+public static ObservableList<IKunde> getListeDerKunden() {
+		return listeDerKunden;
+	}
+
+
+
+
+	
+	/**
+	 * this method searches our customers list, who contain the given searchterm 
+	 * in either their first name, surname or customer number
+	 * @param suchfeld the field in which the searchterm gets typed 
+	 * @param kundentable table which shows the filtered list
+	 */
+	public static  void search(TextField suchfeld, TableView<IKunde> kundentable) {
 
 		 suchfeld.textProperty().addListener(new ChangeListener<String>() {
-	            @SuppressWarnings("unchecked")
+
+				/* (non-Javadoc)
+				 * @see javafx.beans.value.ChangeListener#changed(javafx.beans.value.ObservableValue, java.lang.Object, java.lang.Object)
+				 */
 				@Override
 	            public void changed(ObservableValue<? extends String> observableValue, String s, String suche) {
 	            	
@@ -38,14 +64,16 @@ public class Kundenliste {
 	            		 			 		if (!suche.isEmpty()){
 	            		 			 			
 	            		 			 			// Stream
-	            		 			 			
-	            		 				 		List<Kunde> filteredList =   listeDerKunden.stream()
-	            		 				 				                                    .filter(i -> i.Name.toLowerCase().contains(suche.toLowerCase()) 
-			                                            	                                                  	    || i.Vorname.toLowerCase().contains(suche.toLowerCase())
-			                                            	                                                        || String.valueOf(i.Kundennummer).contains(suche.toLowerCase()))
+	            		 			 			/*
+	            		 			 			 * list that includes the customers that contain the searchterm
+	            		 			 			 */
+	            		 				 		List<IKunde> filteredList =   listeDerKunden.stream()
+	            		 				 				                                    .filter(i -> i.getName().toLowerCase().contains(suche.toLowerCase()) 
+			                                            	                                                  	    || i.getVorname().toLowerCase().contains(suche.toLowerCase())
+			                                            	                                                        || String.valueOf(i.getKundennummer()).contains(suche.toLowerCase()))
 	            		 				 				                                     .collect(Collectors.toList());
 	            		 				 				                                                       
-	            		 				 		ObservableList<Kunde> observableFilteredList = FXCollections.observableList(filteredList);
+	            		 				 		ObservableList<IKunde> observableFilteredList = FXCollections.observableList(filteredList);
 	            		 				 		
 	            		 				 		kundentable.setItems(observableFilteredList);
 	            		 			 			
@@ -58,5 +86,4 @@ public class Kundenliste {
 	        });
 	}
 }
-
 
