@@ -1,6 +1,6 @@
 package persons;
 
-import javafx.scene.web.HTMLEditor;
+
 
 /**
 * The CRM_System program implements an application that
@@ -14,6 +14,9 @@ import javafx.scene.web.HTMLEditor;
 /**
  * Represents a customer.
  * A customer can be edited and deleted 
+ * 
+ * Hinweis: Die Klasse mussten wir leider public lassen, 
+ *          da wir sonst keine neu Instanz eines Kunden in der Factory Klasse anlegen können
  */
 public class Kunde implements IKunde {
 
@@ -27,7 +30,7 @@ public class Kunde implements IKunde {
 	public String land;
 	public String telefon;
 	public int kundennummer;
-	public HTMLEditor notiz = new HTMLEditor();
+	public String notiz;
 	
 	
 
@@ -49,7 +52,7 @@ public class Kunde implements IKunde {
 	 */
 	public Kunde(String type, String name, String vorname, String straße, int hausnummer,
 			int postleitzahl, String stadt, String land, String telefon,
-			int kundennummer,HTMLEditor notiz) {
+			int kundennummer,String notiz) {
 		this.type = type;
 		this.name = name;
 		this.vorname = vorname;
@@ -195,14 +198,14 @@ public class Kunde implements IKunde {
 	/* (non-Javadoc)
 	 * @see SE2.CRM_System.IKunde#getNotiz()
 	 */
-	public HTMLEditor getNotiz() {
+	public String getNotiz() {
 		return notiz;
 	}
 
 	/* (non-Javadoc)
 	 * @see SE2.CRM_System.IKunde#setNotiz(HTMLEditor)
 	 */
-	public void setNotiz(HTMLEditor notiz) {
+	public void setNotiz(String notiz) {
 		this.notiz = notiz;
 	}
 	

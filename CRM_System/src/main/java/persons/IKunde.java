@@ -8,7 +8,7 @@ package persons;
 * @since   2016.06.28
 */
 
-import javafx.scene.web.HTMLEditor;
+
 
 /**
  * Interface class that has the following methods.
@@ -119,12 +119,12 @@ public interface IKunde {
 	/**
 	 * @return notes regarding the customer
 	 */
-	public HTMLEditor getNotiz();
+	public String getNotiz();
 	
 	/**
 	 * @param notiz notes regarding the customer
 	 */
-	public void setNotiz(HTMLEditor notiz);
+	public void setNotiz(String notiz);
 
 	/**
 	 * @return all parameters of customer

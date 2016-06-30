@@ -1,6 +1,6 @@
 package mainFunctionality;
 
-import javafx.scene.web.HTMLEditor;
+
 /**
 * The CRM_System program implements an application that
 * organizes customers 
@@ -32,24 +32,9 @@ public class Driver {
 	 */
 	public void add(String type, String name, String vorname, String straße, int hausnummer,
 			int postleitzahl, String stadt, String land, String telefon,
-			int kundennummer, HTMLEditor notiz){
+			int kundennummer, String notiz){
 		
-		
-		notiz.setPrefHeight(245);
-         
-		notiz.setStyle(
-                 "-fx-font: 12 cambria;"
-                 + "-fx-border-color: black; "
-                 + "-fx-border-width: 10;"
-             );
-         /*
-          * default text for the notes 
-          */
-         final String initial_text = "<html><body>Kontaktfenster, falls noch kein Kontakt zu diesem Kunden angelegt, bitte hier anlegen:</body></html>";
 
-         notiz.setHtmlText(initial_text);
-         
-		
 		FactoryKunde.add(type, name, vorname, straße, hausnummer, postleitzahl, stadt, land, telefon, kundennummer,notiz);
 		
 		
@@ -61,22 +46,8 @@ public class Driver {
 	 */
 	public void add (){
 		
-		HTMLEditor notiz = new HTMLEditor();
-		notiz.setPrefHeight(245);
-        
-		notiz.setStyle(
-                 "-fx-font: 12 cambria;"
-                 + "-fx-border-color: black; "
-                 + "-fx-border-width: 10;"
-             );
-         
-		 /*
-         * default text for the notes 
-         */
-         final String initial_text = "<html><body>Kontaktfenster, falls noch kein Kontakt zu diesem Kunden angelegt, bitte hier anlegen:</body></html>";
-
-         notiz.setHtmlText(initial_text);
-		
+		String notiz = "";
+	
 		FactoryKunde.add("Kunde", "Hans", "Peter", "Musterstraße", 1, 72121, "Musterstadt", "Musterland", "12334567", 1,notiz);
 		
 		FactoryKunde.add("Kunde", "Gans", "Gustav", "Nelkenweg", 2, 70707, "Entenhausen", "Entenland", "0715468945", 2,notiz);

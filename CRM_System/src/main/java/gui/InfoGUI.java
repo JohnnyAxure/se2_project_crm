@@ -5,8 +5,6 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,18 +14,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.web.HTMLEditor;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mainFunctionality.Kundenliste;
 import persons.IKunde;
-import persons.Kunde;
+
 
 /**
 * The CRM_System program implements an application that
@@ -317,42 +316,42 @@ public abstract class InfoGUI extends Application {
 		 * opens a new window.
 		 * In this window notes can be added and changed
 		 */
-		notiz.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				log3.fine("Adding a Note to Contact.");
-				
-					final Stage notizStage = new Stage();
-					notizStage.setTitle("Kontakt");
-					notizStage.setWidth(800);
-					notizStage.setHeight(400);   
-					
-					final HTMLEditor htmlEditor = new HTMLEditor();
-					
-					htmlEditor.setHtmlText(selected.getNotiz().getHtmlText());
-		
-		           
-		            Scene scene = new Scene(htmlEditor);       
-		            notizStage.setScene(scene);
-		            notizStage.show();
-		            log3.fine("Launched Note Stage.");
-		            
-		            /*
-		             * Handler
-		             * closes notes window
-		             */
-		            notizStage.setOnHidden(new EventHandler<WindowEvent>() {
 
-						public void handle(
-								WindowEvent onClosing) {
-							
-							selected.setNotiz(htmlEditor);
-							log3.fine("Closed Primary Stage, terminating.");
-							notizStage.hide();
-						}
-					});
-		        }
-				
-	});
+
+notiz.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                log3.fine("Adding a Note to Contact.");
+                
+                    final Stage notizStage = new Stage();
+                    notizStage.setTitle("Kontakt");
+                    notizStage.setWidth(800);
+                    notizStage.setHeight(400);   
+            
+        
+                    TextArea textArea = new TextArea();
+                    textArea.setWrapText(true);  
+                    textArea.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth() - 500.0);
+                    textArea.setText(selected.getNotiz());
+                    VBox vbox = new VBox(textArea);
+               
+                    Scene scene = new Scene(vbox, 800, 400);
+                    notizStage.setScene(scene);
+                    notizStage.show();
+                    log3.fine("Launched Note Stage.");
+                    
+                    notizStage.setOnHidden(new EventHandler<WindowEvent>() {
+
+                        public void handle(
+                                WindowEvent onClosing) {
+                            
+                            selected.setNotiz(textArea.getText());
+                            log3.fine("Closed Primary Stage, terminating.");
+                            notizStage.hide();
+                        }
+                    });
+                }
+                
+    });
 		
 		
 		

@@ -26,9 +26,9 @@ import persons.IKunde;
 public class Kundenliste {
 
 	/**
-	 * list that collects all the customers
+	 * synchronized list that collects all the customers
 	 */
-	private static ObservableList<IKunde> listeDerKunden = FXCollections.observableArrayList();
+	private static ObservableList<IKunde> listeDerKunden =  FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
 	
 	
 		

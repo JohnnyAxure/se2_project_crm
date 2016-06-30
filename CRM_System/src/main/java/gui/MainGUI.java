@@ -24,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mainFunctionality.Driver;
@@ -282,6 +281,8 @@ public abstract class MainGUI extends Application{
 						WindowEvent onClosing) {
 						 addStage.hide();
 						 log2.fine("Closed Primary Stage, terminating.");
+						 Platform.exit();
+				         System.exit(0);
 								
 														}
 						});
@@ -478,7 +479,7 @@ public abstract class MainGUI extends Application{
                          formatException2.showAndWait();
                      }
 						
-						HTMLEditor notiz= new HTMLEditor();
+						String notiz= "";
 					
                                                       /*
                                                        * stream

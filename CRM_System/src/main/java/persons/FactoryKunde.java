@@ -1,6 +1,6 @@
 package persons;
 
-import javafx.scene.web.HTMLEditor;
+
 import mainFunctionality.Kundenliste;
 /**
 * The CRM_System program implements an application that
@@ -36,15 +36,11 @@ public class FactoryKunde extends Kundenliste{
 	 */
 	public static void add(String type, String name, String vorname,
 			String straße, int hausnummer, int postleitzahl, String stadt,
-			String land, String telefon, int kundennummer,HTMLEditor notiz) {
+			String land, String telefon, int kundennummer,String notiz) {
 
 		if (type.equals("Kunde")) {
 			
 		IKunde temp = new Kunde(type, name, vorname, straße, hausnummer, postleitzahl, stadt, land, telefon, kundennummer, notiz);
-			
-			//IKunde temp = FactoryKunde.add(type, Name, Vorname, Straße, Hausnummer, Postleitzahl, Stadt, Land, Telefon, Kundennummer, Notiz);
-		
-		  // IKunde temp = new IKunde(type, Name, Vorname, Straße, Hausnummer, Postleitzahl, Stadt, Land, Telefon, Kundennummer,Notiz);
 			
 		Kundenliste.getListeDerKunden().add(temp);
 						
