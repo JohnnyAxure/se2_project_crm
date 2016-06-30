@@ -63,7 +63,7 @@ public abstract class MainGUI extends Application{
 	
 	/**
 	 * this method opens our main gui
-	 * @param mainStage Stage that did contain out LoginGUI
+	 * @param mainStage Stage that did contain our LoginGUI
 	 */
 	@SuppressWarnings("unchecked")
 	public static void startMainGui(final Stage mainStage) {
@@ -73,36 +73,13 @@ public abstract class MainGUI extends Application{
 		log2.addHandler(handlerSecondary);
 		log2.setLevel(Level.FINEST);
 		log2.fine("Launched Main Stage.");
-		
-	
-		Boolean unused= true; 
-		
-//		public synchronized threadrefresh() {
-//			while(unused){
-//
-//				 Thread threadRefresh = new Thread(() -> {
-//				        while (true) {
-//				            try {
-//								Thread.sleep(3000);
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//							} 
-//				            // Guarded wait observable list 
-//				            
-//				           kundentable.refresh();
-//				           //unused= false;
-//				           
-//				        }
-//				    }); 
-//				 threadRefresh.start();
-//			}}
-		
+
+
 			
 		/*
 		 * Thread that refreshes our table every three seconds
 		 */
 		 Thread threadRefresh = new Thread(() -> {
-		        while (unused) {
 		            try {
 						Thread.sleep(3000);
 					} catch (Exception e) {
@@ -113,7 +90,6 @@ public abstract class MainGUI extends Application{
 		           kundentable.refresh();
 		           //unused= false;
 		           
-		        }
 		    }); 
 		 threadRefresh.start();
 		 
@@ -123,27 +99,10 @@ public abstract class MainGUI extends Application{
 		 ObservableList<IKunde> backupList = FXCollections.observableArrayList();
 		 
 
-			// Thread backup
-//		 public synchronized threadBackup(){
-//			 while(!unused){
-//				 try{
-//					 Thread.sleep(3000);
-//				 }
-//				 catch (Exception e){}
-//			 }
-//			 
-//			 backupList.addAll(Kundenliste.listeDerKunden);
-//			 System.out.println(backupList);
-//			 unused = true;
-//			 notifyAll();
-//
-//		 }
-		 
 		 /*
 		  * Thread that creates an backup of the customer list and prints it on our console every three seconds
 		  */
 		 Thread threadBackup = new Thread(() -> {
-			while (unused) {
 		            try {
 						Thread.sleep(3000);
 					} catch (Exception e) {
@@ -153,7 +112,7 @@ public abstract class MainGUI extends Application{
 		            backupList.addAll(Kundenliste.getListeDerKunden());
 					 System.out.println(backupList);
 		   
-		 }});
+		 });
 		 
 		 threadBackup.start();
 		 
@@ -265,26 +224,19 @@ public abstract class MainGUI extends Application{
 				final Stage addStage = new Stage();
 				addStage.setTitle("Kontakt hinzufügen");
 
-				// specify stage locations.
+				
 				addStage.setX(900);
 				addStage.setY(200);
 
-				// add a trigger to hide the secondary
-				// stage when the primary stage is
-				// hidden.
-				// this will cause all stages to be
-				// hidden (which will cause the app to
-				// terminate).
+				
 		 mainStage.setOnHidden(new EventHandler<WindowEvent>() {
 
 				public void handle(
 						WindowEvent onClosing) {
 						 addStage.hide();
 						 log2.fine("Closed Primary Stage, terminating.");
-						 Platform.exit();
-				         System.exit(0);
 								
-														}
+						  }
 						});
 
 				VBox vb4 = new VBox();

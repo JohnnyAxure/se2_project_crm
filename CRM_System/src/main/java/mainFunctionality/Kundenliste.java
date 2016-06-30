@@ -45,8 +45,8 @@ public static ObservableList<IKunde> getListeDerKunden() {
 
 	
 	/**
-	 * this method searches our customers list, who contain the given searchterm 
-	 * in either their first name, surname or customer number
+	 * this method searches our customers list, for customers 
+	 * which first name, surname or customer number starts with the given searchterm 
 	 * @param suchfeld the field in which the searchterm gets typed 
 	 * @param kundentable table which shows the filtered list
 	 */
@@ -68,9 +68,9 @@ public static ObservableList<IKunde> getListeDerKunden() {
 	            		 			 			 * list that includes the customers that contain the searchterm
 	            		 			 			 */
 	            		 				 		List<IKunde> filteredList =   listeDerKunden.stream()
-	            		 				 				                                    .filter(i -> i.getName().toLowerCase().contains(suche.toLowerCase()) 
-			                                            	                                                  	    || i.getVorname().toLowerCase().contains(suche.toLowerCase())
-			                                            	                                                        || String.valueOf(i.getKundennummer()).contains(suche.toLowerCase()))
+	            		 				 				                                    .filter(i -> i.getName().toLowerCase().startsWith(suche.toLowerCase()) 
+			                                            	                                                  	    || i.getVorname().toLowerCase().startsWith(suche.toLowerCase())
+			                                            	                                                        || String.valueOf(i.getKundennummer()).startsWith(suche.toLowerCase()))
 	            		 				 				                                     .collect(Collectors.toList());
 	            		 				 				                                                       
 	            		 				 		ObservableList<IKunde> observableFilteredList = FXCollections.observableList(filteredList);
