@@ -316,9 +316,7 @@ public abstract class InfoGUI extends Application {
 		 * opens a new window.
 		 * In this window notes can be added and changed
 		 */
-
-
-notiz.setOnAction(new EventHandler<ActionEvent>(){
+		notiz.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent event){
                 log3.fine("Adding a Note to Contact.");
                 
@@ -330,6 +328,7 @@ notiz.setOnAction(new EventHandler<ActionEvent>(){
         
                     TextArea textArea = new TextArea();
                     textArea.setWrapText(true);  
+                    textArea.setPrefHeight(400);
                     textArea.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth() - 500.0);
                     textArea.setText(selected.getNotiz());
                     VBox vbox = new VBox(textArea);
