@@ -67,18 +67,6 @@ public abstract class InfoGUI extends Application {
         infoStage.setX(900);
 		infoStage.setY(150);
 
-		/*
-		 * Handler
-		 * closes the info window when the main window gets closed
-		 */
-		mainStage.setOnHidden(new EventHandler<WindowEvent>() {
-
-			public void handle(
-					WindowEvent onClosing) {
-				infoStage.hide();
-				log3.fine("Closed Primary Stage, terminating.");
-			}
-		});
 		
 		
 		/*
@@ -310,7 +298,15 @@ public abstract class InfoGUI extends Application {
 		infoStage.show();
 		log3.fine("Launched Info Stage.");
 		
-		
+	      /*
+	       * Stage for the notes window	
+	       */
+  		
+		  final Stage notizStage = new Stage();
+          notizStage.setTitle("Kontakt");
+          notizStage.setWidth(800);
+          notizStage.setHeight(400);   
+  
 		/*
 		 * Handler
 		 * opens a new window.
@@ -319,13 +315,7 @@ public abstract class InfoGUI extends Application {
 		notiz.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent event){
                 log3.fine("Adding a Note to Contact.");
-                
-                    final Stage notizStage = new Stage();
-                    notizStage.setTitle("Kontakt");
-                    notizStage.setWidth(800);
-                    notizStage.setHeight(400);   
-            
-        
+      
                     TextArea textArea = new TextArea();
                     textArea.setWrapText(true);  
                     textArea.setPrefHeight(400);
@@ -542,6 +532,20 @@ public abstract class InfoGUI extends Application {
 				
 	});
 		
+		/*
+		 * Handler
+		 * closes the info window when the main window gets closed
+		 */
+		mainStage.setOnHidden(new EventHandler<WindowEvent>() {
+
+			public void handle(
+					WindowEvent onClosing) {
+				infoStage.hide();
+				notizStage.hide();
+				log3.fine("Closed Primary Stage, terminating.");
+				
+			}
+		});
 		
 		
 	}}
