@@ -73,23 +73,21 @@ public abstract class MainGUI extends Application{
 		log2.addHandler(handlerSecondary);
 		log2.setLevel(Level.FINEST);
 		log2.fine("Launched Main Stage.");
-
-
-			
+		
 		/*
 		 * Thread that refreshes our table every three seconds
 		 */
 		 Thread threadRefresh = new Thread(() -> {
+		        while (true) {
 		            try {
 						Thread.sleep(3000);
 					} catch (Exception e) {
 						e.printStackTrace();
 					} 
-		            // Guarded wait observable list 
-		            
+		    
 		           kundentable.refresh();
-		           //unused= false;
 		           
+		        }
 		    }); 
 		 threadRefresh.start();
 		 
@@ -103,6 +101,7 @@ public abstract class MainGUI extends Application{
 		  * Thread that creates an backup of the customer list and prints it on our console every three seconds
 		  */
 		 Thread threadBackup = new Thread(() -> {
+			while (true) {
 		            try {
 						Thread.sleep(3000);
 					} catch (Exception e) {
@@ -112,12 +111,11 @@ public abstract class MainGUI extends Application{
 		            backupList.addAll(Kundenliste.getListeDerKunden());
 					 System.out.println(backupList);
 		   
-		 });
+		 }});
 		 
 		 threadBackup.start();
 		 
-	
-		
+		 
 		VBox vb2 = new VBox();
 		vb2.setPadding(new Insets(10, 50, 50, 50));
 		vb2.setSpacing(5);
