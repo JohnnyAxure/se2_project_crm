@@ -413,21 +413,29 @@ public abstract class MainGUI extends Application{
 						log2.fine("Saving new Contact.");
 						
 						try{
-                            Integer.parseInt(postleitzahlSet.getText());
-                            Integer.parseInt(hausnummerSet.getText());
-                        
-                     }
-                     catch (NumberFormatException f){
-                        
-                    	 log2.log(Level.WARNING, "Number Format Exception, probably invalid input. Launching Alert Window.", f);
-                         System.out.println("Fehler");
-                        
-                         Alert formatException2 = new Alert(AlertType.WARNING);
-                         formatException2.setTitle("Falsche Eingabe");
-                         formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
+		                     Integer.parseInt(postleitzahlSet.getText());
+		                     Integer.parseInt(hausnummerSet.getText());
+		                 
+		              }
+		              catch (NumberFormatException f){
+		                 
+		            	  log2.log(Level.WARNING, "Number Format Exception, probably invalid input. Launching Alert Window.", f);
+		                  System.out.println("Fehler");
+		                 
+		                  Alert formatException2 = new Alert(AlertType.WARNING);
+		                  formatException2.setTitle("Falsche Eingabe");
+		                  formatException2.setContentText("Bitte eine gültige Zahl eingeben!");
+		                  
+		                 
+                          ButtonType noButton = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
 
-                         formatException2.showAndWait();
-                     }
+                          formatException2.getButtonTypes().setAll( noButton);
+
+                          Optional<ButtonType> result = formatException2.showAndWait();
+                          if (result.get() == noButton){
+                          addStage.showAndWait();
+		                  formatException2.hide();
+		              }}
 						
 						String notiz= "";
 					
