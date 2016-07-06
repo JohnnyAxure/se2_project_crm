@@ -46,7 +46,7 @@ public static ObservableList<IKunde> getListeDerKunden() {
 	
 	/**
 	 * this method searches our customers list, for customers 
-	 * which first name, surname or customer number starts with the given searchterm 
+	 * which first name, surname or customer number starts with the given search term 
 	 * @param suchfeld the field in which the searchterm gets typed 
 	 * @param kundentable table which shows the filtered list
 	 */
